@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinesh Kumar V | Projects</title>
+    <meta name="description" content="Projects developed by Dinesh Kumar V, Web Developer and future Full-Stack Developer">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        Outfit: ['Outfit', 'sans-serif'],
+                        Ovo: ['Ovo', 'serif']
+                    },
+                    colors: {
+                        accent: 'rgba(37, 99, 235, 1)',
+                        darkTheme: '#000',
+                    },
+                    boxShadow: {
+                        'black': '4px 4px 0 #000',
+                        'white': '4px 4px 0 #fff',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+
+    <style>
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+            border-radius: 5px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="w-full fixed top-0 left-0 z-50 bg-white/80 dark:bg-black/90 backdrop-blur shadow-sm">
+        <div class="mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-[8%] py-3 sm:py-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8 rounded-full px-6 sm:px-12 py-2 sm:py-3 bg-white/70 shadow-black font-Ovo dark:bg-black dark:shadow-white">
+                <li class="hover:scale-105 duration-200"><a href="index.html" class="text-black dark:text-white dark:hover:text-accent transition">HOME</a></li>
+                <li class="hover:scale-105 duration-200"><a href="about.html" class="text-black dark:text-white dark:hover:text-accent transition">ABOUT</a></li>
+                <li class="hover:scale-105 duration-200"><a href="skills.html" class="text-black dark:text-white dark:hover:text-accent transition">SKILLS</a></li>
+                <li class="hover:scale-105 duration-200"><a href="certificates.html" class="text-black dark:text-white dark:hover:text-accent transition">CERTIFICATES</a></li>
+                <li class="hover:scale-105 duration-200"><a href="#contact" class="text-black dark:text-white dark:hover:text-accent transition">CONTACT</a></li>
+            </ul>
+
+            <!-- Right Side -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" id="theme-toggle" class="focus:outline-none">
+                    <i class="fas fa-moon text-black dark:hidden"></i>
+                    <i class="fas fa-sun text-accent hidden dark:inline-block"></i>
+                </button>
+
+                <!-- Download CV (Desktop) -->
+                <a href="#" class="hidden lg:flex items-center gap-3 px-6 sm:px-10 py-2.5 border border-black rounded-full ml-2 sm:ml-4 hover:bg-accent hover:text-black hover:scale-105 duration-200 font-Ovo dark:border-accent">
+                    DOWNLOAD CV
+                    <i class="fas fa-download ml-2"></i>
+                </a>
+
+                <!-- Hamburger (Mobile) -->
+                <button class="block md:hidden ml-2 sm:ml-3 hover:scale-105 duration-200" onclick="openMenu()" aria-label="Open Menu">
+                    <i class="fas fa-bars text-black dark:text-white"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="sideMenu" class="fixed top-0 right-0 bg-black/95 text-white dark:bg-black/80 dark:text-white backdrop-blur-lg z-50 flex flex-col items-end pr-16 pl-8 pb-8 pt-4 transition-transform duration-300 transform translate-x-full md:hidden">
+            <button onclick="closeMenu()" class="mb-8 mt-2">
+                <i class="fas fa-times text-white text-2xl"></i>
+            </button>
+            <ul class="w-full flex flex-col gap-6 text-lg font-Ovo">
+                <li><a onclick="closeMenu()" href="index.html".html" class="hover:text-accent transition">HOME</a></li>
+                <li><a onclick="closeMenu()" href="about.html" class="hover:text-accent transition">ABOUT</a></li>
+                <li><a onclick="closeMenu()" href="skills.html" class="hover:text-accent transition">SKILLS</a></li>
+                <li><a onclick="closeMenu()" href="certificates.html" class="hover:text-accent transition">CERTIFICATES</a></li>
+                <li><a onclick="closeMenu()" href="#contact" class="hover:text-accent transition">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Projects Hero Section -->
+    <section class="pt-32 pb-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">My <span class="text-blue-600 dark:text-blue-400">Projects</span></h1>
+            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">A collection of my work and personal projects</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Search Bar -->
+                    <!-- Search Bar -->
+                    <div class="flex-1 relative">
+                        <div class="absolute left-3 top-3 text-gray-400 pointer-events-none">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <input type="text" id="project-search" placeholder="Search projects..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800">
+                        <div id="search-suggestions" class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-lg hidden">
+                            <!-- Suggestions will appear here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Dropdown -->
+                    <div class="relative">
+                        <button id="filter-toggle" class="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg flex items-center gap-2">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                        <div id="filter-dropdown" class="absolute right-0 mt-1 w-64 bg-white dark:bg-gray-700 shadow-lg rounded-lg p-4 hidden z-10">
+                            <h3 class="font-semibold mb-3">Filter by:</h3>
+                            
+                            <!-- Technologies Filter -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium mb-2">Technologies</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="HTML">
+                                        HTML
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="CSS">
+                                        CSS
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="JavaScript">
+                                        JavaScript
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Bootstrap">
+                                        Bootstrap
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Tailwind">
+                                        Tailwind CSS
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Python">
+                                        Python
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Project Type Filter -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium mb-2">Project Type</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Portfolio">
+                                        Portfolio
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="E-commerce">
+                                        E-commerce
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Web App">
+                                        Web App
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Landing Page">
+                                        Landing Page
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-600">
+                                <button id="reset-filters" class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                                    Reset
+                                </button>
+                                <button id="apply-filters" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project cards will be dynamically loaded here -->
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" class="mt-12 flex justify-center items-center gap-2">
+                <!-- Pagination buttons will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">
+                        © 2025 Dinesh Kumar V. All rights reserved.
+                    </p>
+                </div>
+                
+                <!-- Footer Navigation -->
+                <div class="mb-6 md:mb-0">
+                    <ul class="flex flex-wrap justify-center gap-4 md:gap-6">
+                        <li><a href="index.html" class="text-gray-600 dark:text-white hover:text-accent transition font-Ovo uppercase">HOME</a></li>
+                        <li><a href="about.html" class="text-gray-600 dark:text-white hover:text-accent transition font-Ovo uppercase">ABOUT</a></li>
+                        <li><a href="skills.html" class="text-gray-600 dark:text-white hover:text-accent transition font-Ovo uppercase">SKILLS</a></li>
+                        <li><a href="certificates.html" class="text-gray-600 dark:text-white hover:text-accent transition font-Ovo uppercase">CERTIFICATES</a></li>
+                        <li><a href="#contact" class="text-gray-600 dark:text-white hover:text-accent transition font-Ovo uppercase">CONTACT</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex gap-4">
+                    <a href="https://linkedin.com/in/dineshkumarbe" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/DineshKumarV-Pro" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="GitHub">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:dineshkumarv.pro@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="Email">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <p>Designed and Developed by <a href="https://dineshkumar-pro.web.app" class="text-accent hover:underline">DineshKumarV</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 p-3 bg-accent text-black rounded-full shadow-lg hover:bg-black hover:text-accent transition opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/script.js"></script>
+    <script>
+        // Project data
+        const projects = [
+            {
+                id: 1,
+                title: "Personal Portfolio Website",
+                description: "A responsive portfolio website built with HTML5, CSS3, and JavaScript to showcase my work.",
+                image: "assets/images/project1.jpg",
+                tags: ["HTML", "CSS", "JavaScript", "Tailwind"],
+                type: "Portfolio",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/portfolio",
+                date: "June 2024"
+            },
+            {
+                id: 2,
+                title: "E-commerce Landing Page",
+                description: "A modern landing page for an e-commerce site using Bootstrap with responsive design.",
+                image: "assets/images/project2.jpg",
+                tags: ["HTML", "CSS", "Bootstrap"],
+                type: "Landing Page",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/ecommerce-landing",
+                date: "May 2024"
+            },
+            {
+                id: 3,
+                title: "Task Management App",
+                description: "A simple task management application built with JavaScript to organize daily tasks.",
+                image: "assets/images/project3.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/task-manager",
+                date: "April 2024"
+            },
+            {
+                id: 4,
+                title: "Weather Dashboard",
+                description: "A weather application that fetches data from a weather API and displays forecasts.",
+                image: "assets/images/project4.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/weather-dashboard",
+                date: "March 2024"
+            },
+            {
+                id: 5,
+                title: "Recipe Finder",
+                description: "An application that helps users find recipes based on ingredients they have.",
+                image: "assets/images/project5.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/recipe-finder",
+                date: "February 2024"
+            },
+            {
+                id: 6,
+                title: "Blog Website",
+                description: "A responsive blog website with multiple articles and categories.",
+                image: "assets/images/project6.jpg",
+                tags: ["HTML", "CSS", "Bootstrap"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/blog-website",
+                date: "January 2024"
+            },
+            {
+                id: 7,
+                title: "Quiz App",
+                description: "An interactive quiz application with multiple categories and score tracking.",
+                image: "assets/images/project7.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/quiz-app",
+                date: "December 2023"
+            },
+            {
+                id: 8,
+                title: "Expense Tracker",
+                description: "A simple expense tracker to monitor monthly spending and income.",
+                image: "assets/images/project8.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/expense-tracker",
+                date: "November 2023"
+            },
+            {
+                id: 9,
+                title: "Social Media Dashboard",
+                description: "A dashboard UI for a social media platform with dark mode toggle.",
+                image: "assets/images/project9.jpg",
+                tags: ["HTML", "CSS", "JavaScript", "Tailwind"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/social-dashboard",
+                date: "October 2023"
+            },
+            {
+                id: 10,
+                title: "Restaurant Website",
+                description: "A responsive website for a restaurant with menu and reservation system.",
+                image: "assets/images/project10.jpg",
+                tags: ["HTML", "CSS", "Bootstrap"],
+                type: "Landing Page",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/restaurant-website",
+                date: "September 2023"
+            },
+            {
+                id: 11,
+                title: "Fitness Tracker",
+                description: "An application to track workouts and fitness progress.",
+                image: "assets/images/project11.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/fitness-tracker",
+                date: "August 2023"
+            },
+            {
+                id: 12,
+                title: "Travel Agency Website",
+                description: "A landing page for a travel agency showcasing destinations and packages.",
+                image: "assets/images/project12.jpg",
+                tags: ["HTML", "CSS", "Bootstrap"],
+                type: "Landing Page",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/travel-agency",
+                date: "July 2023"
+            },
+            {
+                id: 13,
+                title: "Book Library",
+                description: "A digital library to track reading progress and manage books.",
+                image: "assets/images/project13.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/book-library",
+                date: "June 2023"
+            },
+            {
+                id: 14,
+                title: "Music Player",
+                description: "A web-based music player with playlist functionality.",
+                image: "assets/images/project14.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/music-player",
+                date: "May 2023"
+            },
+            {
+                id: 15,
+                title: "Hotel Booking System",
+                description: "A simple interface for booking hotel rooms with date selection.",
+                image: "assets/images/project15.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/hotel-booking",
+                date: "April 2023"
+            },
+            {
+                id: 16,
+                title: "Calculator App",
+                description: "A functional calculator with basic arithmetic operations.",
+                image: "assets/images/project16.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/calculator",
+                date: "March 2023"
+            },
+            {
+                id: 17,
+                title: "To-Do List App",
+                description: "A simple to-do list application with task management features.",
+                image: "assets/images/project17.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/todo-app",
+                date: "February 2023"
+            },
+            {
+                id: 18,
+                title: "Countdown Timer",
+                description: "A customizable countdown timer for events and special occasions.",
+                image: "assets/images/project18.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/countdown-timer",
+                date: "January 2023"
+            },
+            {
+                id: 19,
+                title: "Memory Game",
+                description: "A card matching memory game with score tracking.",
+                image: "assets/images/project19.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/memory-game",
+                date: "December 2022"
+            },
+            {
+                id: 20,
+                title: "Password Generator",
+                description: "A tool to generate secure random passwords with customizable options.",
+                image: "assets/images/project20.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/password-generator",
+                date: "November 2022"
+            },
+            {
+                id: 21,
+                title: "Currency Converter",
+                description: "A simple currency converter using exchange rate API.",
+                image: "assets/images/project21.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/currency-converter",
+                date: "October 2022"
+            },
+            {
+                id: 22,
+                title: "Note Taking App",
+                description: "A web application for creating and managing notes.",
+                image: "assets/images/project22.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/notes-app",
+                date: "September 2022"
+            },
+            {
+                id: 23,
+                title: "BMI Calculator",
+                description: "A body mass index calculator with health recommendations.",
+                image: "assets/images/project23.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/bmi-calculator",
+                date: "August 2022"
+            },
+            {
+                id: 24,
+                title: "Age Calculator",
+                description: "A tool to calculate age based on birth date.",
+                image: "assets/images/project24.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/age-calculator",
+                date: "July 2022"
+            },
+            {
+                id: 25,
+                title: "Random Quote Generator",
+                description: "Displays random inspirational quotes with share functionality.",
+                image: "assets/images/project25.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                type: "Web App",
+                demoLink: "#",
+                codeLink: "https://github.com/DineshKumarV-Pro/quote-generator",
+                date: "June 2022"
+            }
+        ];
+            // DOM Elements
+            document.addEventListener('DOMContentLoaded', () => {
+            const projectsContainer = document.getElementById('projects-container');
+            const paginationContainer = document.getElementById('pagination');
+            const searchInput = document.getElementById('project-search');
+            const searchSuggestions = document.getElementById('search-suggestions');
+            const filterToggle = document.getElementById('filter-toggle');
+            const filterDropdown = document.getElementById('filter-dropdown');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+                
+            let currentPage = 1;
+            const projectsPerPage = 9;
+            let filteredProjects = [...projects];
+                
+            // Display projects function
+            function displayProjects() {
+                projectsContainer.innerHTML = '';
+            
+                const startIndex = (currentPage - 1) * projectsPerPage;
+                const endIndex = startIndex + projectsPerPage;
+                const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
+            
+                if (paginatedProjects.length === 0) {
+                    projectsContainer.innerHTML = `
+                        <div class="col-span-full text-center py-12">
+                            <i class="fas fa-project-diagram text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600 dark:text-gray-300">No projects found matching your criteria.</p>
+                        </div>
+                    `;
+                    return;
+                }
+            
+                paginatedProjects.forEach(project => {
+                    const tagsHTML = project.tags.map(tag => 
+                        `<span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">${tag}</span>`
+                    ).join('');
+                
+                    const projectCard = `
+                        <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                            <div class="h-48 overflow-hidden">
+                                <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-300 mb-3">${project.description}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${project.date}</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    ${tagsHTML}
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="${project.demoLink}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                                        Live Demo <i class="fas fa-external-link-alt ml-2"></i>
+                                    </a>
+                                    <a href="${project.codeLink}" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                                        View Code <i class="fab fa-github ml-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    projectsContainer.innerHTML += projectCard;
+                });
+            }
+        
+            // Setup pagination
+            function setupPagination() {
+                paginationContainer.innerHTML = '';
+                const pageCount = Math.ceil(filteredProjects.length / projectsPerPage);
+            
+                if (pageCount <= 1) return;
+            
+                // Previous button
+                if (currentPage > 1) {
+                    paginationContainer.innerHTML += `
+                        <button onclick="changePage(${currentPage - 1})" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                    `;
+                }
+            
+                // Page numbers
+                for (let i = 1; i <= pageCount; i++) {
+                    paginationContainer.innerHTML += `
+                        <button onclick="changePage(${i})" class="px-3 py-1 ${i === currentPage ? 'bg-blue-600 text-white' : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'} rounded">
+                            ${i}
+                        </button>
+                    `;
+                }
+            
+                // Next button
+                if (currentPage < pageCount) {
+                    paginationContainer.innerHTML += `
+                        <button onclick="changePage(${currentPage + 1})" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    `;
+                }
+            }
+        
+            // Change page function
+            window.changePage = function(page) {
+                currentPage = page;
+                displayProjects();
+                setupPagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        
+            // Show search suggestions
+            function showSuggestions(term) {
+                const suggestions = [];
+            
+                // Search in titles
+                projects.forEach(project => {
+                    if (project.title.toLowerCase().includes(term)) {
+                        suggestions.push(project.title);
+                    }
+                });
+            
+                // Search in types
+                projects.forEach(project => {
+                    if (project.type.toLowerCase().includes(term)) {
+                        suggestions.push(project.type);
+                    }
+                });
+            
+                // Search in tags
+                projects.forEach(project => {
+                    project.tags.forEach(tag => {
+                        if (tag.toLowerCase().includes(term)) {
+                            suggestions.push(tag);
+                        }
+                    });
+                });
+            
+                // Remove duplicates
+                const uniqueSuggestions = [...new Set(suggestions)];
+            
+                if (uniqueSuggestions.length > 0) {
+                    searchSuggestions.innerHTML = uniqueSuggestions.map(suggestion => 
+                        `<div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">${suggestion}</div>`
+                    ).join('');
+                    searchSuggestions.classList.remove('hidden');
+                
+                    // Add click event to suggestions
+                    document.querySelectorAll('#search-suggestions div').forEach(item => {
+                        item.addEventListener('click', () => {
+                            searchInput.value = item.textContent;
+                            searchSuggestions.classList.add('hidden');
+                            filterProjects();
+                        });
+                    });
+                } else {
+                    searchSuggestions.classList.add('hidden');
+                }
+            }
+        
+            // Filter projects based on search
+            function filterProjects() {
+                const searchTerm = searchInput.value.toLowerCase();
+            
+                if (searchTerm.length === 0) {
+                    filteredProjects = [...projects];
+                } else {
+                    filteredProjects = projects.filter(project => {
+                        return project.title.toLowerCase().includes(searchTerm) ||
+                               project.type.toLowerCase().includes(searchTerm) ||
+                               project.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                               project.description.toLowerCase().includes(searchTerm);
+                    });
+                }
+            
+                currentPage = 1;
+                displayProjects();
+                setupPagination();
+            }
+        
+            // Setup event listeners
+            function setupEventListeners() {
+                // Search input
+                searchInput.addEventListener('input', () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    showSuggestions(searchTerm);
+                });
+            
+                // Filter toggle
+                filterToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filterDropdown.classList.toggle('hidden');
+                });
+            
+                // Prevent filter dropdown from closing when clicking inside
+                filterDropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            
+                // Close filter dropdown when clicking outside
+                document.addEventListener('click', () => {
+                    filterDropdown.classList.add('hidden');
+                });
+            
+                // Reset filters
+                resetFiltersBtn.addEventListener('click', () => {
+                    document.querySelectorAll('#filter-dropdown input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    filteredProjects = [...projects];
+                    currentPage = 1;
+                    displayProjects();
+                    setupPagination();
+                    filterDropdown.classList.add('hidden'); // Close dropdown after reset
+                });
+            
+                // Apply filters
+                applyFiltersBtn.addEventListener('click', () => {
+                    const selectedTechs = Array.from(document.querySelectorAll('#filter-dropdown input[type="checkbox"]:checked'))
+                        .map(checkbox => checkbox.value);
+                
+                    filteredProjects = projects.filter(project => {
+                        return selectedTechs.length === 0 || selectedTechs.some(tech => project.tags.includes(tech));
+                    });
+                
+                    currentPage = 1;
+                    displayProjects();
+                    setupPagination();
+                    filterDropdown.classList.add('hidden'); // Close dropdown after apply
+                });
+            }
+        
+            // Initialize
+            setupEventListeners();
+            displayProjects();
+            setupPagination();
+        });
+
+    </script>
+</body>
+</html>
