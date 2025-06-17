@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinesh Kumar V | Web Developer</title>
+    <meta name="description" content="Portfolio of Dinesh Kumar V, Web Developer and future Full-Stack Developer">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        Outfit: ['Outfit', 'sans-serif'],
+                        Ovo: ['Ovo', 'serif']
+                    },
+                    colors: {
+                        accent: '#12f7ff',
+                        darkTheme: '#000',
+                    },
+                    boxShadow: {
+                        'black': '4px 4px 0 #000',
+                        'white': '4px 4px 0 #fff',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+
+    <style>
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+            border-radius: 5px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="w-full fixed top-0 left-0 z-50 bg-white/80 dark:bg-black/90 backdrop-blur shadow-sm">
+        <div class="mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-[8%] py-3 sm:py-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8 rounded-full px-6 sm:px-12 py-2 sm:py-3 bg-white/70 shadow-black font-Ovo dark:bg-black dark:shadow-white">
+                <li class="hover:scale-105 duration-200"><a href="about.html" class="text-black dark:text-white dark:hover:text-accent transition">ABOUT</a></li>
+                <li class="hover:scale-105 duration-200"><a href="skills.html" class="text-black dark:text-white dark:hover:text-accent transition">SKILLS</a></li>
+                <li class="hover:scale-105 duration-200"><a href="certificates.html" class="text-black dark:text-white dark:hover:text-accent transition">CERTIFICATES</a></li>
+                <li class="hover:scale-105 duration-200"><a href="projects.html" class="text-black dark:text-white dark:hover:text-accent transition">PROJECTS</a></li>
+                <li class="hover:scale-105 duration-200"><a href="#contact" class="text-black dark:text-white dark:hover:text-accent transition">CONTACT</a></li>
+            </ul>
+
+            <!-- Right Side -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" id="theme-toggle" class="focus:outline-none">
+                    <i class="fas fa-moon text-black dark:hidden"></i>
+                    <i class="fas fa-sun text-accent hidden dark:inline-block"></i>
+                </button>
+
+                <!-- Download CV (Desktop) -->
+                <a href="#" class="hidden lg:flex items-center gap-3 px-6 sm:px-10 py-2.5 border border-black rounded-full ml-2 sm:ml-4 hover:bg-accent hover:text-black hover:scale-105 duration-200 font-Ovo dark:border-accent">
+                    DOWNLOAD CV
+                    <i class="fas fa-download ml-2"></i>
+                </a>
+
+                <!-- Hamburger (Mobile) -->
+                <button class="block md:hidden ml-2 sm:ml-3 hover:scale-105 duration-200" onclick="openMenu()" aria-label="Open Menu">
+                    <i class="fas fa-bars text-black dark:text-white"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="sideMenu" class="fixed top-0 right-0 bg-black/95 text-white dark:bg-black/80 dark:text-white backdrop-blur-lg z-50 flex flex-col items-end pr-16 pl-8 pb-8 pt-4 transition-transform duration-300 transform translate-x-full md:hidden">
+            <button onclick="closeMenu()" class="mb-8 mt-2">
+                <i class="fas fa-times text-white text-2xl"></i>
+            </button>
+            <ul class="w-full flex flex-col gap-6 text-lg font-Ovo">
+                <li><a onclick="closeMenu()" href="about.html" class="hover:text-accent transition">ABOUT</a></li>
+                <li><a onclick="closeMenu()" href="skills.html" class="hover:text-accent transition">SKILLS</a></li>
+                <li><a onclick="closeMenu()" href="certificates.html" class="hover:text-accent transition">CERTIFICATES</a></li>
+                <li><a onclick="closeMenu()" href="projects.html" class="hover:text-accent transition">PROJECTS</a></li>
+                <li><a onclick="closeMenu()" href="#contact" class="hover:text-accent transition">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 py-12 md:py-24">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                        <div class="absolute inset-0 bg-blue-400 dark:bg-blue-600 rounded-full opacity-20 blur-xl animate-pulse"></div>
+                        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-100 dark:border-gray-700 shadow-xl">
+                            <img src="assets/images/profile.jpg" alt="Dinesh Kumar V" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-Ovo">
+                        Hi, I'm <span class="text-blue-600 dark:text-blue-400">Dinesh Kumar V</span>👋
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 font-Ovo">
+                        A passionate Full-Stack Developer.
+                    </h2>
+                    <p class="text-lg mb-8 text-gray-600 dark:text-gray-300 font-Ovo">
+                        I build exceptional digital experiences with modern web technologies. Currently pursuing B.E in Computer Science at Loyola Institute of Technology.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="projects.html" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition shadow-lg hover:shadow-xl">
+                            View My Projects
+                        </a>
+                        <a href="#contact" class="px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg font-medium transition">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-Ovo">About Me</h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 font-Ovo">
+                    Get to know more about me and my journey in technology
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold mb-4 font-Ovo">Who Am I?</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
+                        I'm a passionate web developer with expertise in HTML5, CSS3, JavaScript, and modern frameworks like Bootstrap and Tailwind CSS. Currently expanding my skills to become a Full-Stack Developer.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
+                        I enjoy solving complex problems and building responsive, user-friendly web applications that deliver real value.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="about.html" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                            More About Me
+                        </a>
+                        <a href="#" class="px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                            Download CV
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold mb-4 font-Ovo">Education</h3>
+                    <div class="space-y-6">
+                        <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow">
+                            <h4 class="text-xl font-medium mb-2">B.E in Computer Science</h4>
+                            <p class="text-gray-600 dark:text-gray-300 mb-2">Loyola Institute of Technology • 2025-2029</p>
+                            <p class="text-gray-600 dark:text-gray-300">Currently pursuing my bachelor's degree with focus on web development and software engineering principles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-Ovo">My Skills</h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+                    Technologies and tools I work with
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">HTML5</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 95%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 2 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">CSS3</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 3 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">JavaScript</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 4 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-bootstrap"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Bootstrap</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 5 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Tailwind CSS</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 88%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 6 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-git-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Git</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 7 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">GitHub</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 8 -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-4 text-blue-600 dark:text-blue-400">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Python</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="skills.html" class="inline-block px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                    View All Skills
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Certificates Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-Ovo">My Certificates</h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 font-Ovo">
+                    Here are some of the certificates I've earned through my learning journey.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certificate Card 1 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/certificate1.jpg" alt="Certificate 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Web Development Fundamentals</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Issued by: Coursera • May 2024</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">HTML</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">View Certificate<i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Certificate Card 2 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/certificate2.jpg" alt="Certificate 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Python Programming</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Issued by: Udemy • March 2024</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">Python</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">View Certificate<i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Certificate Card 3 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/certificate3.jpg" alt="Certificate 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Responsive Web Design</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Issued by: freeCodeCamp • January 2024</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">HTML</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">Bootstrap</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">View Certificate<i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="certificates.html" class="inline-block px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                    View All Certificates
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-Ovo">My Projects</h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 font-Ovo">
+                    Some of my recent work and personal projects
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/project1.jpg" alt="Project 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Portfolio Website</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A responsive portfolio website built with HTML5, CSS3, and JavaScript.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">HTML</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                                Live Demo <i class="fas fa-external-link-alt ml-2"></i>
+                            </a>
+                            <a href="#" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                                View Code <i class="fab fa-github ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/project2.jpg" alt="Project 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">E-commerce Landing Page</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A modern landing page for an e-commerce site using Bootstrap.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">HTML</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">Bootstrap</span>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                                Live Demo <i class="fas fa-external-link-alt ml-2"></i>
+                            </a>
+                            <a href="#" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                                View Code <i class="fab fa-github ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/project3.jpg" alt="Project 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Task Management App</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A simple task management application built with JavaScript.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">HTML</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                                Live Demo <i class="fas fa-external-link-alt ml-2"></i>
+                            </a>
+                            <a href="#" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                                View Code <i class="fab fa-github ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="projects.html" class="inline-block px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg font-medium transition">
+                    View All Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-Ovo">Get In Touch</h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 font-Ovo">
+                    Have a project in mind or want to collaborate? Feel free to reach out!
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <form id="contact-form" class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block mb-2 text-gray-700 dark:text-gray-300 font-Ovo">Your Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800">
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2 text-gray-700 dark:text-gray-300 font-Ovo">Your Email</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="subject" class="block mb-2 text-gray-700 dark:text-gray-300 font-Ovo">Subject</label>
+                        <input type="text" id="subject" name="subject" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block mb-2 text-gray-700 dark:text-gray-300 font-Ovo">Your Message</label>
+                        <textarea id="message" name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800"></textarea>
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition shadow-lg hover:shadow-xl w-full">
+                        Send Message
+                    </button>
+                </form>
+                
+                <div id="form-success" class="hidden mt-6 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg">
+                    Your message has been sent successfully! I'll get back to you soon.
+                </div>
+                
+                <div id="form-error" class="hidden mt-6 p-4 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-lg">
+                    There was an error sending your message. Please try again later or email me directly at dineshkumarv.pro@gmail.com
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">
+                        © 2025 Dinesh Kumar V. All rights reserved.
+                    </p>
+                </div>
+                
+                <!-- Footer Navigation -->
+                <div class="mb-6 md:mb-0">
+                    <ul class="flex flex-wrap justify-center gap-4 md:gap-6">
+                        <li><a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo">About</a></li>
+                        <li><a href="skills.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo">Skills</a></li>
+                        <li><a href="projects.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo">Projects</a></li>
+                        <li><a href="certificates.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo">Certificates</a></li>
+                        <li><a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex gap-4">
+                    <a href="https://linkedin.com/in/dineshkumarbe" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/DineshKumarV-Pro" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="GitHub">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:dineshkumarv.pro@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="Email">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <p>Designed and Developed by <a href="https://dk-portfolio.netlify.app" class="text-accent hover:underline">DineshKumarV</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 p-3 bg-accent text-black rounded-full shadow-lg hover:bg-black hover:text-accent transition opacity-0 invisible">
+    <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/script.js">
+                // Mobile Menu Toggle
+        function openMenu() {
+            document.getElementById('sideMenu').classList.remove('translate-x-full');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.add('translate-x-full');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Close menu when clicking on links
+        document.querySelectorAll('#sideMenu a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Scroll to Top Button
+        window.addEventListener('scroll', function() {
+            const scrollTopBtn = document.getElementById('scroll-to-top');
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible');
+                scrollTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible');
+                scrollTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+
+        document.getElementById('scroll-to-top').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCj7xctLTdtj9C09yIuIp9EnLR3R1r3KlY",
+    authDomain: "dineshkumar-pro.firebaseapp.com",
+    projectId: "dineshkumar-pro",
+    storageBucket: "dineshkumar-pro.firebasestorage.app",
+    messagingSenderId: "1055763192716",
+    appId: "1:1055763192716:web:745a5082c6e3841ab3d4a9",
+    measurementId: "G-75W8ZESDKD"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
