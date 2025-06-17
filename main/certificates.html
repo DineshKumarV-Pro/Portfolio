@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinesh Kumar V | Certificates</title>
+    <meta name="description" content="Certificates earned by Dinesh Kumar V in web development and programming">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        Outfit: ['Outfit', 'sans-serif'],
+                        Ovo: ['Ovo', 'serif']
+                    },
+                    colors: {
+                        accent: 'rgba(37, 99, 235, 1)',
+                        darkTheme: '#000',
+                    },
+                    boxShadow: {
+                        'black': '4px 4px 0 #000',
+                        'white': '4px 4px 0 #fff',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+
+    <style>
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+            border-radius: 5px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 1);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="w-full fixed top-0 left-0 z-50 bg-white/80 dark:bg-black/90 backdrop-blur shadow-sm">
+        <div class="mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-[8%] py-3 sm:py-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8 rounded-full px-6 sm:px-12 py-2 sm:py-3 bg-white/70 shadow-black font-Ovo dark:bg-black dark:shadow-white">
+                <li class="hover:scale-105 duration-200"><a href="index.html" class="text-black dark:text-white dark:hover:text-accent transition">HOME</a></li>
+                <li class="hover:scale-105 duration-200"><a href="about.html" class="text-black dark:text-white dark:hover:text-accent transition">ABOUT</a></li>
+                <li class="hover:scale-105 duration-200"><a href="skills.html" class="text-black dark:text-white dark:hover:text-accent transition">SKILLS</a></li>
+                <li class="hover:scale-105 duration-200"><a href="projects.html" class="text-black dark:text-white dark:hover:text-accent transition">PROJECTS</a></li>
+                <li class="hover:scale-105 duration-200"><a href="#contact" class="text-black dark:text-white dark:hover:text-accent transition">CONTACT</a></li>
+            </ul>
+
+            <!-- Right Side -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" id="theme-toggle" class="focus:outline-none">
+                    <i class="fas fa-moon text-black dark:hidden"></i>
+                    <i class="fas fa-sun text-accent hidden dark:inline-block"></i>
+                </button>
+
+                <!-- Download CV (Desktop) -->
+                <a href="#" class="hidden lg:flex items-center gap-3 px-6 sm:px-10 py-2.5 border border-black rounded-full ml-2 sm:ml-4 hover:bg-accent hover:text-black hover:scale-105 duration-200 font-Ovo dark:border-accent">
+                    DOWNLOAD CV
+                    <i class="fas fa-download ml-2"></i>
+                </a>
+
+                <!-- Hamburger (Mobile) -->
+                <button class="block md:hidden ml-2 sm:ml-3 hover:scale-105 duration-200" onclick="openMenu()" aria-label="Open Menu">
+                    <i class="fas fa-bars text-black dark:text-white"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="sideMenu" class="fixed top-0 right-0 bg-black/95 text-white dark:bg-black/80 dark:text-white backdrop-blur-lg z-50 flex flex-col items-end pr-16 pl-8 pb-8 pt-4 transition-transform duration-300 transform translate-x-full md:hidden">
+            <button onclick="closeMenu()" class="mb-8 mt-2">
+                <i class="fas fa-times text-white text-2xl"></i>
+            </button>
+            <ul class="w-full flex flex-col gap-6 text-lg font-Ovo">
+                <li><a onclick="closeMenu()" href="index.html" class="hover:text-accent transition">HOME</a></li>
+                <li><a onclick="closeMenu()" href="about.html" class="hover:text-accent transition">ABOUT</a></li>
+                <li><a onclick="closeMenu()" href="skills.html" class="hover:text-accent transition">SKILLS</a></li>
+                <li><a onclick="closeMenu()" href="projects.html" class="hover:text-accent transition">PROJECTS</a></li>
+                <li><a onclick="closeMenu()" href="#contact" class="hover:text-accent transition">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Certificates Hero Section -->
+    <section class="pt-32 pb-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">My <span class="text-blue-600 dark:text-blue-400">Certificates</span></h1>
+            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">Certifications I've earned through my learning journey</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Search Bar -->
+                    <!-- Search Bar -->
+                    <div class="flex-1 relative">
+                        <div class="absolute left-3 top-3 text-gray-400 pointer-events-none">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <input type="text" id="certificate-search" placeholder="Search certificates..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800">
+                        <div id="search-suggestions" class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-lg hidden">
+                            <!-- Suggestions will appear here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Dropdown -->
+                    <div class="relative">
+                        <button id="filter-toggle" class="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg flex items-center gap-2">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                        <div id="filter-dropdown" class="absolute right-0 mt-1 w-64 bg-white dark:bg-gray-700 shadow-lg rounded-lg p-4 hidden z-10">
+                            <h3 class="font-semibold mb-3">Filter by:</h3>
+                            
+                            <!-- Language Filter -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium mb-2">Languages</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="HTML">
+                                        HTML
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="CSS">
+                                        CSS
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="JavaScript">
+                                        JavaScript
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Python">
+                                        Python
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="C">
+                                        C Programming
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Organization Filter -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium mb-2">Organization</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Coursera">
+                                        Coursera
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="Udemy">
+                                        Udemy
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-600 dark:text-blue-400 mr-2" value="freeCodeCamp">
+                                        freeCodeCamp
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-600">
+                                <button id="reset-filters" class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                                    Reset
+                                </button>
+                                <button id="apply-filters" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Grid Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div id="certificates-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certificate cards will be dynamically loaded here -->
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" class="mt-12 flex justify-center items-center gap-2">
+                <!-- Pagination buttons will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html" class="text-3xl sm:text-4xl font-bold font-Ovo flex-shrink-0">Dk<span class="text-blue-600 dark:text-blue-400 text-5xl">.</span></a>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">
+                        © 2025 Dinesh Kumar V. All rights reserved.
+                    </p>
+                </div>
+                
+                <!-- Footer Navigation -->
+                <div class="mb-6 md:mb-0">
+                    <ul class="flex flex-wrap justify-center gap-4 md:gap-6">
+                        <li><a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo uppercase">HOME</a></li>
+                        <li><a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo uppercase">ABOUT</a></li>
+                        <li><a href="skills.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo uppercase">SKILLS</a></li>
+                        <li><a href="projects.html" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo uppercase">PROJECTS</a></li>
+                        <li><a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-accent transition font-Ovo uppercase">CONTACT</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex gap-4">
+                    <a href="https://linkedin.com/in/dineshkumarbe" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/DineshKumarV-Pro" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="GitHub">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:dineshkumarv.pro@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-accent transition" aria-label="Email">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400 text-blue-500  ">
+                <p>Designed and Developed by <a href="https://dineshkumar-pro.web.app" class="text-[rgb(37, 99, 235)] hover:underline">DineshKumarV</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 p-3 bg-accent text-black rounded-full shadow-lg hover:bg-black hover:text-accent transition opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/script.js"></script>
+    <script>
+        // Certificate data
+        const certificates = [
+            {
+                id: 1,
+                title: "Web Development Fundamentals",
+                organization: "Coursera",
+                date: "May 2024",
+                image: "assets/images/certificate1.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                link: "#"
+            },
+            {
+                id: 2,
+                title: "Python Programming",
+                organization: "Udemy",
+                date: "March 2024",
+                image: "assets/images/certificate2.jpg",
+                tags: ["Python"],
+                link: "#"
+            },
+            {
+                id: 3,
+                title: "Responsive Web Design",
+                organization: "freeCodeCamp",
+                date: "January 2024",
+                image: "assets/images/certificate3.jpg",
+                tags: ["HTML", "CSS", "Bootstrap"],
+                link: "#"
+            },
+            {
+                id: 4,
+                title: "JavaScript Basics",
+                organization: "Coursera",
+                date: "November 2023",
+                image: "assets/images/certificate4.jpg",
+                tags: ["JavaScript"],
+                link: "#"
+            },
+            {
+                id: 5,
+                title: "C Programming",
+                organization: "Udemy",
+                date: "September 2023",
+                image: "assets/images/certificate5.jpg",
+                tags: ["C"],
+                link: "#"
+            },
+            {
+                id: 6,
+                title: "Advanced CSS Techniques",
+                organization: "freeCodeCamp",
+                date: "July 2023",
+                image: "assets/images/certificate6.jpg",
+                tags: ["CSS"],
+                link: "#"
+            },
+            {
+                id: 7,
+                title: "Git and GitHub",
+                organization: "Coursera",
+                date: "June 2023",
+                image: "assets/images/certificate7.jpg",
+                tags: ["Git"],
+                link: "#"
+            },
+            {
+                id: 8,
+                title: "Tailwind CSS",
+                organization: "Udemy",
+                date: "April 2023",
+                image: "assets/images/certificate8.jpg",
+                tags: ["CSS", "Tailwind"],
+                link: "#"
+            },
+            {
+                id: 9,
+                title: "Web Accessibility",
+                organization: "freeCodeCamp",
+                date: "February 2023",
+                image: "assets/images/certificate9.jpg",
+                tags: ["HTML", "Accessibility"],
+                link: "#"
+            },
+            {
+                id: 10,
+                title: "Python for Data Science",
+                organization: "Coursera",
+                date: "December 2022",
+                image: "assets/images/certificate10.jpg",
+                tags: ["Python"],
+                link: "#"
+            },
+            {
+                id: 11,
+                title: "Frontend Development",
+                organization: "Udemy",
+                date: "October 2022",
+                image: "assets/images/certificate11.jpg",
+                tags: ["HTML", "CSS", "JavaScript"],
+                link: "#"
+            },
+            {
+                id: 12,
+                title: "Bootstrap Framework",
+                organization: "freeCodeCamp",
+                date: "August 2022",
+                image: "assets/images/certificate12.jpg",
+                tags: ["Bootstrap"],
+                link: "#"
+            },
+            {
+                id: 13,
+                title: "JavaScript Algorithms",
+                organization: "Coursera",
+                date: "June 2022",
+                image: "assets/images/certificate13.jpg",
+                tags: ["JavaScript"],
+                link: "#"
+            },
+            {
+                id: 14,
+                title: "Web Design Principles",
+                organization: "Udemy",
+                date: "May 2022",
+                image: "assets/images/certificate14.jpg",
+                tags: ["Design"],
+                link: "#"
+            },
+            {
+                id: 15,
+                title: "CSS Grid Layout",
+                organization: "freeCodeCamp",
+                date: "March 2022",
+                image: "assets/images/certificate15.jpg",
+                tags: ["CSS"],
+                link: "#"
+            },
+            {
+                id: 16,
+                title: "HTML5 APIs",
+                organization: "Coursera",
+                date: "January 2022",
+                image: "assets/images/certificate16.jpg",
+                tags: ["HTML"],
+                link: "#"
+            },
+            {
+                id: 17,
+                title: "Python Automation",
+                organization: "Udemy",
+                date: "November 2021",
+                image: "assets/images/certificate17.jpg",
+                tags: ["Python"],
+                link: "#"
+            },
+            {
+                id: 18,
+                title: "CSS Animations",
+                organization: "freeCodeCamp",
+                date: "September 2021",
+                image: "assets/images/certificate18.jpg",
+                tags: ["CSS"],
+                link: "#"
+            },
+            {
+                id: 19,
+                title: "JavaScript ES6+",
+                organization: "Coursera",
+                date: "July 2021",
+                image: "assets/images/certificate19.jpg",
+                tags: ["JavaScript"],
+                link: "#"
+            },
+            {
+                id: 20,
+                title: "C Programming Advanced",
+                organization: "Udemy",
+                date: "May 2021",
+                image: "assets/images/certificate20.jpg",
+                tags: ["C"],
+                link: "#"
+            },
+            {
+                id: 21,
+                title: "Web Performance",
+                organization: "freeCodeCamp",
+                date: "April 2021",
+                image: "assets/images/certificate21.jpg",
+                tags: ["Performance"],
+                link: "#"
+            },
+            {
+                id: 22,
+                title: "Python Web Development",
+                organization: "Coursera",
+                date: "February 2021",
+                image: "assets/images/certificate22.jpg",
+                tags: ["Python"],
+                link: "#"
+            },
+            {
+                id: 23,
+                title: "Git Advanced",
+                organization: "Udemy",
+                date: "December 2020",
+                image: "assets/images/certificate23.jpg",
+                tags: ["Git"],
+                link: "#"
+            },
+            {
+                id: 24,
+                title: "CSS Flexbox",
+                organization: "freeCodeCamp",
+                date: "October 2020",
+                image: "assets/images/certificate24.jpg",
+                tags: ["CSS"],
+                link: "#"
+            },
+            {
+                id: 25,
+                title: "JavaScript Testing",
+                organization: "Coursera",
+                date: "August 2020",
+                image: "assets/images/certificate25.jpg",
+                tags: ["JavaScript"],
+                link: "#"
+            }
+        ];
+
+        // DOM Elements
+        document.addEventListener('DOMContentLoaded', () => {
+    const certificatesContainer = document.getElementById('certificates-container');
+    const paginationContainer = document.getElementById('pagination');
+    const searchInput = document.getElementById('certificate-search');
+    const searchSuggestions = document.getElementById('search-suggestions');
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterDropdown = document.getElementById('filter-dropdown');
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    const applyFiltersBtn = document.getElementById('apply-filters');
+
+    let currentPage = 1;
+    const certificatesPerPage = 9;
+    let filteredCertificates = [...certificates];
+
+    // Display certificates function
+    function displayCertificates() {
+        certificatesContainer.innerHTML = '';
+
+        const startIndex = (currentPage - 1) * certificatesPerPage;
+        const endIndex = startIndex + certificatesPerPage;
+        const paginatedCertificates = filteredCertificates.slice(startIndex, endIndex);
+
+        if (paginatedCertificates.length === 0) {
+            certificatesContainer.innerHTML = 
+            `
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-certificate text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600 dark:text-gray-300">No certificates found matching your criteria.</p>
+                </div>
+            `;
+            return;
+        }
+
+        paginatedCertificates.forEach(cert => {
+            const tagsHTML = cert.tags.map(tag => 
+                            '<span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">' + tag + '</span>'
+                        ).join('');
+
+            const certificateCard = `
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${cert.image}" alt="${cert.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">${cert.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-3">Issued by: ${cert.organization} • ${cert.date}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${tagsHTML}
+                        </div>
+                        <a href="${cert.link}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition" target="_blank" rel="noopener">
+                            View Certificate <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            certificatesContainer.innerHTML += certificateCard;
+        });
+    }
+
+    // Setup pagination
+    function setupPagination() {
+        paginationContainer.innerHTML = '';
+        const pageCount = Math.ceil(filteredCertificates.length / certificatesPerPage);
+
+        if (pageCount <= 1) return;
+
+        // Previous button
+        if (currentPage > 1) {
+            paginationContainer.innerHTML += `
+                <button onclick="changePage(${currentPage - 1})" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Previous Page">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+        }
+
+        // Page numbers
+        for (let i = 1; i <= pageCount; i++) {
+            paginationContainer.innerHTML += `
+                <button onclick="changePage(${i})" class="px-3 py-1 ${i === currentPage ? 'bg-blue-600 text-white' : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'} rounded" aria-label="Page ${i}">
+                    ${i}
+                </button>
+            `;
+        }
+
+        // Next button
+        if (currentPage < pageCount) {
+            paginationContainer.innerHTML += `
+                <button onclick="changePage(${currentPage + 1})" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Next Page">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+        }
+    }
+
+    // Change page function - make global to be used inline onclick
+    window.changePage = function(page) {
+        currentPage = page;
+        displayCertificates();
+        setupPagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show search suggestions as user types
+    function showSuggestions(term) {
+        if (term.length === 0) {
+            searchSuggestions.classList.add('hidden');
+            filteredCertificates = [...certificates];
+            displayCertificates();
+            setupPagination();
+            return;
+        }
+
+        let suggestions = [];
+
+        certificates.forEach(cert => {
+            if (cert.title.toLowerCase().includes(term)) suggestions.push(cert.title);
+            if (cert.organization.toLowerCase().includes(term)) suggestions.push(cert.organization);
+            cert.tags.forEach(tag => {
+                if (tag.toLowerCase().includes(term)) suggestions.push(tag);
+            });
+        });
+
+        // Remove duplicates and limit suggestions to 10 max
+        const uniqueSuggestions = [...new Set(suggestions)].slice(0, 10);
+
+        if (uniqueSuggestions.length > 0) {
+            searchSuggestions.innerHTML = uniqueSuggestions.map(s => `<div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">${s}</div>`).join('');
+            searchSuggestions.classList.remove('hidden');
+
+            // Add click event for suggestion items
+            document.querySelectorAll('#search-suggestions div').forEach(item => {
+                item.addEventListener('click', () => {
+                    searchInput.value = item.textContent;
+                    searchSuggestions.classList.add('hidden');
+                    filterCertificates();
+                });
+            });
+        } else {
+            searchSuggestions.classList.add('hidden');
+        }
+    }
+
+    // Filter certificates based on search input content
+    function filterCertificates() {
+        const searchTerm = searchInput.value.toLowerCase();
+        if (searchTerm.length === 0) {
+            filteredCertificates = [...certificates];
+        } else {
+            filteredCertificates = certificates.filter(cert => {
+                return cert.title.toLowerCase().includes(searchTerm)
+                    || cert.organization.toLowerCase().includes(searchTerm)
+                    || cert.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+            });
+        }
+        currentPage = 1;
+        displayCertificates();
+        setupPagination();
+    }
+
+    // Setup event listeners for search and filters
+    function setupEventListeners() {
+        // Show suggestions on input, for any length including 1 or 0
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            showSuggestions(term);
+        });
+
+        // Toggle filter dropdown on button click
+        filterToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // prevent document click closing it immediately
+            filterDropdown.classList.toggle('hidden');
+        });
+
+        // Prevent filter dropdown from closing when clicking inside
+        filterDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Close dropdown if clicked outside filter toggle or dropdown
+        document.addEventListener('click', (e) => {
+            if (!filterDropdown.contains(e.target) && !filterToggle.contains(e.target)) {
+                filterDropdown.classList.add('hidden');
+            }
+        });
+
+        // Reset filters: uncheck all, reset list, close dropdown
+        resetFiltersBtn.addEventListener('click', () => {
+            const checkboxes = filterDropdown.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            filteredCertificates = [...certificates];
+            currentPage = 1;
+            displayCertificates();
+            setupPagination();
+            filterDropdown.classList.add('hidden'); // close dropdown after reset
+        });
+
+        // Apply filters: filter list, close dropdown
+        applyFiltersBtn.addEventListener('click', () => {
+            const checkboxes = filterDropdown.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedLanguages = [];
+            const selectedOrganizations = [];
+
+            // Assuming tags and organizations are known sets:
+            const languageTags = ['HTML', 'CSS', 'JavaScript', 'Python', 'C', 'Bootstrap', 'Tailwind', 'Git']; // Adjust as needed
+            const organizations = ['Coursera', 'Udemy', 'freeCodeCamp']; // Adjust as needed
+
+            checkboxes.forEach(cb => {
+                const val = cb.value;
+                if (languageTags.includes(val)) selectedLanguages.push(val);
+                if (organizations.includes(val)) selectedOrganizations.push(val);
+            });
+
+            filteredCertificates = certificates.filter(cert => {
+                // Language filter: match any selected lang, or if none selected, always true
+                const langMatch = selectedLanguages.length === 0 || selectedLanguages.some(lang => cert.tags.includes(lang));
+                // Organization filter: match any selected org, or if none selected, true
+                const orgMatch = selectedOrganizations.length === 0 || selectedOrganizations.includes(cert.organization);
+                return langMatch && orgMatch;
+            });
+
+            currentPage = 1;
+            displayCertificates();
+            setupPagination();
+            filterDropdown.classList.add('hidden'); // close dropdown after apply
+        });
+
+    }
+
+    // Initialize
+    setupEventListeners();
+    displayCertificates();
+    setupPagination();
+});
+
+
+    </script>
+</body>
+</html>
