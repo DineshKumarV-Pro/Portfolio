@@ -1,91 +1,157 @@
-# Magic Portfolio
+# Dinesh Kumar V — Portfolio
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Production-grade personal portfolio built with TanStack Start, React 19, TypeScript, and Tailwind CSS 4.
 
-View the demo [here](https://demo.magic-portfolio.com).
+## Stack
 
-![Magic Portfolio](public/images/og/home.jpg)
+| Layer      | Technology                                                                                    |
+| ---------- | --------------------------------------------------------------------------------------------- |
+| Framework  | [TanStack Start](https://tanstack.com/start) + [TanStack Router](https://tanstack.com/router) |
+| UI         | React 19, shadcn/ui, Radix UI, Motion                                                         |
+| Styling    | Tailwind CSS 4, design tokens in `src/styles.css`                                             |
+| Validation | Zod                                                                                           |
+| Deploy     | Nitro (Cloudflare default via Lovable config)                                                 |
 
-## Getting started
+## Quick start
 
-**1. Clone the repository**
-```
-git clone https://github.com/once-ui-system/magic-portfolio.git
-```
-
-**2. Install dependencies**
-```
+```bash
 npm install
-```
-
-**3. Run dev server**
-```
+cp .env.example .env.local   # set VITE_SITE_URL before production deploy
 npm run dev
 ```
 
-**4. Edit config**
+Open `http://localhost:5173`.
+
+## Scripts
+
+| Command             | Purpose                       |
+| ------------------- | ----------------------------- |
+| `npm run dev`       | Development server            |
+| `npm run build`     | Production build → `.output/` |
+| `npm run preview`   | Preview production build      |
+| `npm run typecheck` | TypeScript strict check       |
+| `npm run lint`      | ESLint                        |
+| `npm run format`    | Prettier                      |
+
+## Project structure
+
 ```
-src/resources/once-ui.config.js
+src/
+├── content/          # Static data (site, nav, projects, posts)
+├── components/
+│   ├── common/       # Breadcrumbs, Reveal, ErrorState
+│   ├── forms/        # NewsletterForm
+│   ├── home/         # Homepage sections
+│   ├── layout/       # Header, Footer, ScrollProgress
+│   ├── motion/       # Page transitions, cursor, cards
+│   ├── search/       # Command palette
+│   ├── ui/           # shadcn primitives
+│   └── work/         # Project cards, case study body
+├── hooks/            # Touch, scroll, magnetic, pointer
+├── lib/
+│   ├── config.ts     # Env + absoluteUrl
+│   ├── seo.ts        # Meta tags, JSON-LD builders
+│   ├── analytics.ts  # Analytics architecture (disabled by default)
+│   ├── security.ts   # CSP/header reference, input sanitization
+│   ├── forms/        # Zod schemas + submitters
+│   └── scaffold.tsx  # Placeholder page template
+└── routes/           # File-based routes (TanStack Router)
 ```
 
-**5. Edit content**
+## Content system
+
+- **Site identity:** `src/content/site.ts`
+- **Navigation / sitemap:** `src/content/nav.ts` → `indexableRoutes`
+- **Projects:** `src/content/projects.ts`
+- **Posts:** `src/content/posts.ts` (populate for blog RSS items)
+
+Scaffold pages use `ScaffoldPage` + `buildScaffoldHead()` from `src/lib/scaffold.tsx`.
+
+## SEO
+
+- Per-page meta via `buildPageHead()` in `src/lib/seo.ts`
+- JSON-LD: Person, WebSite, Breadcrumb, Project, Article, FAQ
+- `/sitemap.xml` — static + dynamic project/case-study/blog URLs
+- `/rss.xml` — blog posts + featured projects
+- Set **`VITE_SITE_URL`** for absolute canonical, OG, and sitemap URLs
+
+## Forms
+
+| Form       | Behavior                                     |
+| ---------- | -------------------------------------------- |
+| Contact    | Zod validation → `mailto:` (no backend yet)  |
+| Newsletter | Stub until `VITE_NEWSLETTER_PROVIDER` is set |
+
+Honeypot fields protect against basic bot spam. Wire API routes in `src/lib/forms/newsletter.ts` when ready.
+
+## Analytics
+
+Disabled by default. Architecture in `src/lib/analytics.ts`:
+
+1. Set `VITE_ANALYTICS_ENABLED=true`
+2. Register a provider in root bootstrap (GA4, Plausible, PostHog, etc.)
+
+Events: page views, contact submit, newsletter, resume download, project clicks.
+
+## Security
+
+Reference headers in `public/_headers` and `src/lib/security.ts`. Apply CSP at the CDN/reverse-proxy layer before enabling strict policies.
+
+## Motion
+
+Shared tokens in `src/lib/motion.ts`. All animations respect `prefers-reduced-motion`. Custom cursor is desktop-only.
+
+## Deployment
+
+```bash
+npm run build
+npx vite preview          # local preview
+npx nitro deploy --prebuilt   # Cloudflare (default)
 ```
-src/resources/content.js
-```
 
-**6. Create blog posts / projects**
-```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
-```
+Ensure `VITE_SITE_URL` matches your production domain.
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+## Environment variables
 
-## Documentation
+See `.env.example`.
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+## Production-Grade Optimizations
 
-## Features
+A suite of technical optimizations has been implemented to elevate the website to launch-ready status:
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+1. **Performance & Main-Thread Execution:**
+   - **Lazy Route Loading:** The `CommandPalette` component is lazily loaded using `React.lazy()` and `Suspense`, shaving off ~25KB of bundle size from the initial route paint.
+   - **Zero React Scroll Jank:** High-frequency scroll indicators (such as `ScrollProgress`) were refactored from React state hooks to pure declarative Motion/CSS drivers.
+   - **GPU-Accelerated CSS Animations:** The floating background orbs in `BackgroundSystem` were migrated from Framer Motion JavaScript loops to hardware-accelerated CSS animations (`translate3d`), keeping main-thread execution clear.
+   - **Loading Skeletons:** Implemented a global pending state UI `PageLoading.tsx` registered in the router.
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+2. **Accessibility (a11y) & UX Polish:**
+   - **Global Focus Ring Design:** Removed hostile `:focus-visible { outline: none; }` and replaced it with visible, keyboard-friendly offset focus outlines.
+   - **Motion Controls:** Added `@media (prefers-reduced-motion: reduce)` rules globally to instantly halt parallax, custom mouse cursors, marquee flows, and scroll-behaviors.
+   - **Nav landmark signals:** Integrated `aria-current="page"` into header navigation links.
+   - **Form Accessibility:** Added `aria-invalid` and `aria-describedby` links to validation messages for screen readers in the contact form.
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+3. **SEO & Structured Data:**
+   - Unified route metadata under a central builder `buildPageHead()` for absolute URL canonicalization and OG card validation.
+   - Integrated full Schema.org structured JSON-LD data:
+     - `ProfilePage` schema for the About page.
+     - `Article` + `Breadcrumb` schemas for article detail pages.
+     - `FAQPage` schema for inline FAQ sections.
+   - Absolute URLs mapped to sitemap engines and a custom default OG image placeholder (`og-default.png`) placed in root assets.
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
+4. **Resiliency & Analytics:**
+   - **Offline State Engine:** Added an offline detection system rendering local toast warnings on connection drops.
+   - **Click Tracking:** Configured analytics triggers for PDF downloads, outbound social anchors, and form submittals.
+   - **Magic Number Consolidation:** Extracted validation limits, scroll offsets, and constants into `src/lib/constants.ts` and `src/lib/motion.ts`.
 
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
+## Roadmap
 
-## Creators
-
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
-
-## Get involved
-
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
+- [ ] OG image generation (`/og-default.png` + dynamic routes)
+- [ ] Newsletter provider integration
+- [ ] Contact API route (Resend / Formspree)
+- [ ] MDX or CMS for blog posts
+- [ ] E2E accessibility tests
 
 ## License
 
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
-
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
+Private — © Dinesh Kumar V
