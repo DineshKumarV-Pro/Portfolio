@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from '@/components/Header';
 import { IntroLoader } from '@/components/intro/IntroLoader';
-import { FullscreenNav } from '@/components/navigation/FullscreenNav';
 
 export default function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -22,10 +21,6 @@ export default function Home() {
 
   const toggleNav = useCallback(() => {
     setIsNavOpen((prev) => !prev);
-  }, []);
-
-  const closeNav = useCallback(() => {
-    setIsNavOpen(false);
   }, []);
 
   // Keyboard shortcut: Pressing 'M' toggles fullscreen menu (only after intro finishes)
@@ -63,9 +58,6 @@ export default function Home() {
         onToggleNav={toggleNav}
         isIntroComplete={isIntroComplete}
       />
-
-      {/* Fullscreen Creative Navigation System */}
-      <FullscreenNav isOpen={isNavOpen && isIntroComplete} onClose={closeNav} />
 
       {/* Main Website Area - Pure Full Dark (#000000) & activated only after intro settles */}
       <main
