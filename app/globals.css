@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050509;
+  --foreground: #F0F0F5;
+
+  /* Obsidian Aurora Color Palette */
+  --obsidian-void: #050509;
+  --obsidian-base: #0B0B12;
+  --obsidian-graphite: #171720;
+  --obsidian-surface: #20202B;
+  --obsidian-border: #292832;
+  --obsidian-border-strong: #51515D;
+
+  --aurora-deep: #35205E;
+  --aurora-violet: #7040D8;
+  --aurora-electric: #9563FF;
+  --aurora-lavender: #C2A8FF;
+
+  --chrome-steel: #51515D;
+  --chrome-silver: #9295A3;
+  --chrome-base: #C8CAD3;
+  --chrome-frost: #F0F0F5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-obsidian-void: var(--obsidian-void);
+  --color-obsidian-base: var(--obsidian-base);
+  --color-obsidian-graphite: var(--obsidian-graphite);
+  --color-obsidian-surface: var(--obsidian-surface);
+  --color-obsidian-border: var(--obsidian-border);
+  --color-obsidian-border-strong: var(--obsidian-border-strong);
+
+  --color-aurora-deep: var(--aurora-deep);
+  --color-aurora-violet: var(--aurora-violet);
+  --color-aurora-electric: var(--aurora-electric);
+  --color-aurora-lavender: var(--aurora-lavender);
+
+  --color-chrome-steel: var(--chrome-steel);
+  --color-chrome-silver: var(--chrome-silver);
+  --color-chrome-base: var(--chrome-base);
+  --color-chrome-frost: var(--chrome-frost);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+@keyframes shiny-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.08) translate(12px, -8px);
+  }
+}
+
+/* Custom editorial selection */
+::selection {
+  background: #7040D8;
+  color: #FFFFFF;
+}
+
+/* Hide scrollbar when navigation is open */
+body.nav-open {
+  overflow: hidden !important;
+}
