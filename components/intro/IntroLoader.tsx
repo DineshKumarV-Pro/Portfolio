@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { FULL_LOGO_PATH, LOGO_SUBPATHS, LOGO_VIEWBOX } from '../brand/logoData';
 
@@ -16,7 +16,6 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
 
   const [isMounted, setIsMounted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   // Set path ref helper
   const setPathRef = (index: number) => (el: SVGPathElement | null) => {
@@ -50,8 +49,6 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
       return;
     }
 
-    setIsPlaying(true);
-
     // Lock scrolling during cinematic intro
     document.body.style.overflow = 'hidden';
 
@@ -73,13 +70,12 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
         if (headerLogo) headerLogo.style.opacity = '1';
         gsap.to(overlayRef.current, {
           opacity: 0,
-          duration: 0.4,
-          delay: 0.2,
+          duration: 0.3,
+          delay: 0.15,
           onComplete: () => {
             if (overlayRef.current) overlayRef.current.style.display = 'none';
             document.body.style.overflow = '';
             sessionStorage.setItem('dk_intro_completed', 'true');
-            setIsPlaying(false);
             onComplete?.();
           },
         });
@@ -106,7 +102,6 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
         try {
           const length = path.getTotalLength();
           const safeLength = length > 0 ? length : 2000;
-          // Add 2 to prevent any 1px dot when offset is at maximum with round linecaps
           gsap.set(path, {
             strokeDasharray: `${safeLength + 2} ${safeLength + 2}`,
             strokeDashoffset: safeLength + 2,
@@ -121,7 +116,7 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
         }
       });
 
-      // Orchestrate the master cinematic timeline
+      // Orchestrate master cinematic timeline
       const masterTl = gsap.timeline({
         onComplete: () => {
           if (overlayRef.current) {
@@ -129,23 +124,20 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
           }
           document.body.style.overflow = '';
           sessionStorage.setItem('dk_intro_completed', 'true');
-          setIsPlaying(false);
-          onComplete?.();
         },
       });
 
       // --- STEP 1: Pure Black Screen ---
-      // Cinematic pause in pure black before sketching begins
-      masterTl.to({}, { duration: 0.4 });
+      // Focused cinematic pause in pure black before sketching begins
+      masterTl.to({}, { duration: 0.45 });
 
-      // Reveal the logo canvas
+      // Reveal the centered logo canvas
       masterTl.set(logoContainerRef.current, {
         opacity: 1,
         visibility: 'visible',
       });
 
       // --- STEP 2: Animated SVG Outline Drawing ---
-      // Organically sketch the white outline along the actual SVG curves
       // Outer boundary path (subpath 0) sketches first
       if (pathRefs.current[0]) {
         masterTl.to(
@@ -212,7 +204,6 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
       masterTl.to({}, { duration: 0.1 });
 
       // --- STEP 3: Outline to Solid Logo Transformation ---
-      // Smoothly transition from the outlined SVG into the fully filled original solid white SVG
       if (fillPathRef.current) {
         masterTl.to(
           fillPathRef.current,
@@ -246,7 +237,7 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
 
         if (!introEl) return;
 
-        // Fallback target if header element is not yet in DOM
+        // Calculate exact live target coordinates of header logo
         const targetRect = targetEl
           ? targetEl.getBoundingClientRect()
           : { left: 48, top: 24, width: 130, height: 130 / (425 / 139) };
@@ -271,16 +262,17 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
       // Allow the 1.3s travel animation to complete
       masterTl.to({}, { duration: 1.3 });
 
-      // --- STEP 5: Reveal the Actual Website ---
-      // Seamless handoff: reveal header logo at exact top-left position
+      // --- STEP 5: Logo Settled -> Activate & Reveal Website ---
       masterTl.add(() => {
         const targetEl = document.getElementById('header-brand-logo');
         if (targetEl) {
           targetEl.style.opacity = '1';
         }
+        // Notify parent that the logo has docked and homepage components are now activated
+        onComplete?.();
       }, 'reveal');
 
-      // Smoothly fade out the black cinematic overlay to reveal the website
+      // Smoothly fade out the black cinematic overlay
       if (overlayRef.current) {
         masterTl.to(
           overlayRef.current,
@@ -307,7 +299,7 @@ export function IntroLoader({ onComplete, forcePlay = false }: IntroLoaderProps)
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 bg-[#000000] flex items-center justify-center overflow-hidden pointer-events-auto select-none"
+      className="fixed inset-0 z-[9999] bg-[#000000] flex items-center justify-center overflow-hidden pointer-events-auto select-none"
       aria-hidden="true"
     >
       {/* Centered Logo Container */}
