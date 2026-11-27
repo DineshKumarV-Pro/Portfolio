@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Container } from '@/components/ui/Container';
-import { Divider } from '@/components/ui/Divider';
 import { cn } from '@/lib/utils';
-import { MOTION_DURATION, MOTION_EASE, prefersReducedMotion } from '@/lib/motion';
+import { MOTION_EASE, prefersReducedMotion } from '@/lib/motion';
 import {
   NAVIGATION_ITEMS,
-  NAVIGATION_META,
   NAVIGATION_SOCIALS,
+  type NavigationItem,
+  type NavigationSocialLink,
 } from './navigationData';
 
 export interface FullscreenNavigationProps {
@@ -19,6 +19,81 @@ export interface FullscreenNavigationProps {
   triggerRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
+const BANDS: [NavigationItem, NavigationItem][] = [
+  [NAVIGATION_ITEMS[0], NAVIGATION_ITEMS[1]],
+  [NAVIGATION_ITEMS[2], NAVIGATION_ITEMS[3]],
+  [NAVIGATION_ITEMS[4], NAVIGATION_ITEMS[5]],
+  [NAVIGATION_ITEMS[6], NAVIGATION_ITEMS[7]],
+];
+
+function SocialIcon({ id }: { id: NavigationSocialLink['id'] }) {
+  switch (id) {
+    case 'github':
+      return (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+        </svg>
+      );
+    case 'linkedin':
+      return (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect x="2" y="9" width="4" height="12" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+      );
+    case 'x':
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      );
+    case 'email':
+      return (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+      );
+  }
+}
+
 export function FullscreenNavigation({
   isOpen,
   onClose,
@@ -26,49 +101,70 @@ export function FullscreenNavigation({
   triggerRef,
 }: FullscreenNavigationProps) {
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  const auroraRef = useRef<HTMLDivElement | null>(null);
-  const navItemRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const supportRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const atmosphereRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const axisPulseRef = useRef<HTMLSpanElement | null>(null);
+  const bandRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const socialItemRefs = useRef<(HTMLLIElement | null)[]>([]);
   const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
   const activeTlRef = useRef<gsap.core.Timeline | null>(null);
   const isFirstMountRef = useRef(true);
   const wasOpenRef = useRef(false);
 
-  const setNavItemRef = (index: number) => (el: HTMLLIElement | null) => {
-    navItemRefs.current[index] = el;
+  const setBandRef = (index: number) => (el: HTMLDivElement | null) => {
+    bandRefs.current[index] = el;
   };
 
-  const setSupportRef = (index: number) => (el: HTMLDivElement | null) => {
-    supportRefs.current[index] = el;
+  const setSocialRef = (index: number) => (el: HTMLLIElement | null) => {
+    socialItemRefs.current[index] = el;
   };
 
-  // GSAP coordinated opening & closing timeline
+  // Track vertical axis aurora pulse to the active/hovered band
+  const trackAxisToBand = useCallback((bandIndex: number) => {
+    if (prefersReducedMotion()) return;
+    const stage = stageRef.current;
+    const pulse = axisPulseRef.current;
+    const band = bandRefs.current[bandIndex];
+    if (!stage || !pulse || !band) return;
+
+    const stageRect = stage.getBoundingClientRect();
+    const bandRect = band.getBoundingClientRect();
+    const targetY =
+      bandRect.top - stageRect.top + bandRect.height / 2 - pulse.offsetHeight / 2;
+
+    gsap.to(pulse, {
+      y: targetY,
+      opacity: 0.9,
+      duration: 0.4,
+      ease: MOTION_EASE.outExpo,
+    });
+  }, []);
+
+  // GSAP coordinated opening & closing choreography (Concept B x C)
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
-    const aurora = auroraRef.current;
-    const navItems = navItemRefs.current.filter(
-      (el): el is HTMLLIElement => el !== null
-    );
-    const supportItems = supportRefs.current.filter(
+    const atmosphere = atmosphereRef.current;
+    const pulse = axisPulseRef.current;
+    const bands = bandRefs.current.filter(
       (el): el is HTMLDivElement => el !== null
+    );
+    const socials = socialItemRefs.current.filter(
+      (el): el is HTMLLIElement => el !== null
     );
 
     activeTlRef.current?.kill();
 
-    // Keep closed and hidden on initial mount
     if (isFirstMountRef.current && !isOpen) {
       isFirstMountRef.current = false;
       gsap.set(overlay, {
         visibility: 'hidden',
         opacity: 0,
-        clipPath: 'inset(0% 0% 100% 0%)',
+        clipPath: 'inset(50% 0% 50% 0%)',
         pointerEvents: 'none',
       });
-      if (aurora) {
-        gsap.set(aurora, { opacity: 0, scale: 0.92 });
-      }
+      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
       return;
     }
 
@@ -87,9 +183,10 @@ export function FullscreenNavigation({
           clipPath: 'inset(0% 0% 0% 0%)',
           pointerEvents: 'auto',
         });
-        if (aurora) gsap.set(aurora, { opacity: 0.5, scale: 1 });
-        gsap.set(navItems, { opacity: 1, y: 0 });
-        gsap.set(supportItems, { opacity: 1, y: 0 });
+        if (atmosphere) gsap.set(atmosphere, { opacity: 0.45, scale: 1 });
+        if (pulse) gsap.set(pulse, { opacity: 0.75, y: 0 });
+        gsap.set(bands, { opacity: 1, x: 0 });
+        gsap.set(socials, { opacity: 1, y: 0 });
         firstLinkRef.current?.focus();
         return;
       }
@@ -98,9 +195,16 @@ export function FullscreenNavigation({
         visibility: 'visible',
         pointerEvents: 'none',
       });
-      if (aurora) gsap.set(aurora, { opacity: 0, scale: 0.92 });
-      gsap.set(navItems, { opacity: 0, y: 28 });
-      gsap.set(supportItems, { opacity: 0, y: 18 });
+      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
+      if (pulse) gsap.set(pulse, { opacity: 0, y: 32 });
+
+      bands.forEach((band, idx) => {
+        gsap.set(band, {
+          opacity: 0,
+          x: idx % 2 === 0 ? -36 : 36,
+        });
+      });
+      gsap.set(socials, { opacity: 0, y: 12 });
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -110,12 +214,12 @@ export function FullscreenNavigation({
       });
       activeTlRef.current = tl;
 
-      // 1. Overlay spatial reveal
+      // Stage 1: Widescreen horizontal slit aperture expansion
       tl.fromTo(
         overlay,
         {
           opacity: 0,
-          clipPath: 'inset(0% 0% 100% 0%)',
+          clipPath: 'inset(50% 0% 50% 0%)',
         },
         {
           opacity: 1,
@@ -126,45 +230,58 @@ export function FullscreenNavigation({
         0
       );
 
-      // 2. Atmospheric aurora spatial light transition
-      if (aurora) {
+      // Stage 2: Atmospheric radial depth bloom
+      if (atmosphere) {
         tl.to(
-          aurora,
+          atmosphere,
           {
-            opacity: 0.5,
+            opacity: 0.45,
             scale: 1,
-            duration: 0.85,
+            duration: 0.8,
             ease: MOTION_EASE.outExpo,
           },
-          0.12
+          0.14
         );
       }
 
-      // 3. Oversized editorial navigation typography entrance
-      if (navItems.length > 0) {
+      // Stage 3: Counter-offset typographic bands glide inward
+      if (bands.length > 0) {
         tl.to(
-          navItems,
+          bands,
           {
             opacity: 1,
-            y: 0,
-            duration: MOTION_DURATION.reveal * 0.85,
-            stagger: 0.04,
+            x: 0,
+            duration: 0.62,
+            stagger: 0.06,
             ease: MOTION_EASE.outExpo,
             clearProps: 'transform',
           },
-          '-=0.58'
+          '-=0.52'
         );
       }
 
-      // 4. Supporting editorial statement, metadata & channels
-      if (supportItems.length > 0) {
+      // Stage 4: Vertical axis aurora pulse illuminates
+      if (pulse) {
         tl.to(
-          supportItems,
+          pulse,
+          {
+            opacity: 0.75,
+            duration: 0.45,
+            ease: MOTION_EASE.outExpo,
+          },
+          '-=0.4'
+        );
+      }
+
+      // Stage 5: Social icons reveal in the negative-space anchor
+      if (socials.length > 0) {
+        tl.to(
+          socials,
           {
             opacity: 1,
             y: 0,
-            duration: 0.45,
-            stagger: 0.05,
+            duration: 0.4,
+            stagger: 0.04,
             ease: MOTION_EASE.outExpo,
             clearProps: 'transform',
           },
@@ -178,10 +295,10 @@ export function FullscreenNavigation({
         gsap.set(overlay, {
           visibility: 'hidden',
           opacity: 0,
-          clipPath: 'inset(0% 0% 100% 0%)',
+          clipPath: 'inset(50% 0% 50% 0%)',
           pointerEvents: 'none',
         });
-        if (aurora) gsap.set(aurora, { opacity: 0, scale: 0.92 });
+        if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
         document.body.style.overflow = '';
         document.body.classList.remove('nav-open');
         triggerRef?.current?.focus();
@@ -200,14 +317,13 @@ export function FullscreenNavigation({
       });
       activeTlRef.current = tl;
 
-      // Reverse exit: supporting items, nav typography, aurora & overlay
-      if (supportItems.length > 0) {
+      if (socials.length > 0) {
         tl.to(
-          supportItems,
+          socials,
           {
             opacity: 0,
-            y: -10,
-            duration: 0.2,
+            y: 8,
+            duration: 0.18,
             stagger: 0.02,
             ease: MOTION_EASE.micro,
           },
@@ -215,38 +331,44 @@ export function FullscreenNavigation({
         );
       }
 
-      if (navItems.length > 0) {
-        tl.to(
-          navItems,
-          {
-            opacity: 0,
-            y: -14,
-            duration: 0.24,
-            stagger: 0.015,
-            ease: MOTION_EASE.micro,
-          },
-          0.02
-        );
+      if (bands.length > 0) {
+        bands.forEach((band, idx) => {
+          tl.to(
+            band,
+            {
+              opacity: 0,
+              x: idx % 2 === 0 ? -24 : 24,
+              duration: 0.24,
+              ease: MOTION_EASE.micro,
+            },
+            idx * 0.02
+          );
+        });
       }
 
-      if (aurora) {
+      if (pulse) {
+        tl.to(pulse, { opacity: 0, duration: 0.2 }, 0);
+      }
+
+      if (atmosphere) {
         tl.to(
-          aurora,
+          atmosphere,
           {
             opacity: 0,
             scale: 0.92,
-            duration: 0.32,
+            duration: 0.28,
             ease: MOTION_EASE.micro,
           },
-          0.05
+          0.04
         );
       }
 
+      // Collapse aperture back to horizontal center slit
       tl.to(
         overlay,
         {
           opacity: 0,
-          clipPath: 'inset(0% 0% 100% 0%)',
+          clipPath: 'inset(50% 0% 50% 0%)',
           duration: 0.42,
           ease: MOTION_EASE.inOutEditorial,
         },
@@ -259,7 +381,7 @@ export function FullscreenNavigation({
     };
   }, [isOpen, triggerRef]);
 
-  // Cleanup body scroll lock on unmount
+  // Cleanup scroll lock on unmount
   useEffect(() => {
     return () => {
       document.body.style.overflow = '';
@@ -267,7 +389,7 @@ export function FullscreenNavigation({
     };
   }, []);
 
-  // Escape key & focus cycling between overlay links and trigger close button
+  // Escape key & accessible focus cycling
   useEffect(() => {
     if (!isOpen) return;
 
@@ -333,145 +455,132 @@ export function FullscreenNavigation({
       className="fixed inset-0 z-40 overflow-y-auto overflow-x-hidden bg-void text-primary"
       style={{ visibility: 'hidden', opacity: 0 }}
     >
-      {/* Restrained atmospheric aurora light layer */}
+      {/* Subtle atmospheric depth glow */}
       <div
-        ref={auroraRef}
+        ref={atmosphereRef}
         aria-hidden="true"
-        className="aurora-ambient pointer-events-none fixed -top-36 right-[-12%] h-[500px] w-[500px] rounded-full blur-3xl md:h-[700px] md:w-[700px]"
+        className="aurora-ambient pointer-events-none fixed top-1/2 left-[68%] -translate-x-1/2 -translate-y-1/2 h-[480px] w-[480px] rounded-full blur-3xl md:h-[680px] md:w-[680px]"
         style={{ opacity: 0 }}
       />
 
       <Container
         size="wide"
-        className="relative flex min-h-full flex-col justify-between pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-28 lg:pb-12"
+        className="relative flex min-h-full flex-col justify-center pt-20 pb-8 sm:pt-24 sm:pb-10 lg:py-24"
       >
-        {/* Top contextual navigation strip aligned beneath Header */}
-        <div
-          ref={setSupportRef(0)}
-          className="mb-8 flex items-center justify-between border-b border-border-subtle pb-4 sm:mb-10"
-        >
-          <span className="font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.16em] text-secondary">
-            Index / 08 Destinations
-          </span>
-          <span className="hidden font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.14em] text-secondary sm:inline-block">
-            {NAVIGATION_META.role}
-          </span>
-        </div>
-
-        {/* Asymmetric Brutalist-Editorial Composition */}
-        <div className="editorial-grid items-start gap-y-10 lg:gap-y-0">
-          {/* Dominant Primary Navigation Grid */}
+        {/* Widescreen Editorial Aperture Frame */}
+        <div className="relative grid grid-cols-1 border-y border-border-subtle py-6 sm:py-8 lg:grid-cols-[26%_74%] lg:py-0">
+          {/* Primary Navigation Stage (Right 74% on Desktop, Top on Mobile/Tablet) */}
           <nav
             aria-label="Primary"
-            className="col-span-4 sm:col-span-8 lg:col-span-8 lg:pr-10"
+            className="order-1 lg:order-2"
           >
-            <ul className="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2 sm:gap-y-2 lg:gap-x-12 lg:gap-y-3">
-              {NAVIGATION_ITEMS.map((item, idx) => (
-                <li key={item.id} ref={setNavItemRef(idx)}>
-                  <a
-                    ref={idx === 0 ? firstLinkRef : undefined}
-                    href={item.href}
-                    onClick={onClose}
+            <div
+              ref={stageRef}
+              className={cn(
+                'group/stage relative flex flex-col justify-between gap-2 sm:gap-5 lg:gap-7',
+                'border-l border-border-subtle pl-5 sm:border-l-0 sm:pl-0',
+                'lg:border-l lg:border-border-subtle lg:py-10 lg:pl-12 xl:pl-16'
+              )}
+            >
+              {/* Vertical Axis Aurora Pulse (Desktop) */}
+              <span
+                ref={axisPulseRef}
+                aria-hidden="true"
+                className="pointer-events-none absolute -left-[1px] top-0 hidden h-24 w-[2px] bg-gradient-to-b from-transparent via-aurora-violet to-aurora-cyan lg:block"
+                style={{ opacity: 0 }}
+              />
+
+              {BANDS.map((pair, bandIdx) => {
+                const isEvenBand = bandIdx % 2 === 1;
+                return (
+                  <div
+                    key={pair[0].id}
+                    ref={setBandRef(bandIdx)}
                     className={cn(
-                      'group relative flex min-h-[48px] flex-col justify-center py-2 sm:py-2.5 lg:py-3',
-                      'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-aurora-lavender'
+                      'flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8',
+                      isEvenBand
+                        ? 'lg:pl-[12%] lg:pr-0'
+                        : 'lg:pl-0 lg:pr-[12%]'
                     )}
                   >
-                    <div className="flex items-baseline gap-3 sm:gap-4">
-                      <span className="font-mono text-[length:var(--text-mono-xs)] tabular-nums text-secondary transition-colors duration-[var(--duration-ui)] group-hover:text-aurora-lavender group-focus-visible:text-aurora-lavender">
-                        {item.index}
-                      </span>
-                      <span className="font-display text-[clamp(1.625rem,3.6vw,3.35rem)] font-medium leading-[1.06] tracking-[-0.025em] text-primary transition-transform duration-[var(--duration-ui)] ease-[var(--ease-out-expo)] group-hover:translate-x-2 group-focus-visible:translate-x-2">
-                        {item.label}
-                      </span>
-                    </div>
+                    {pair.map((item, itemIdx) => {
+                      const globalIndex = bandIdx * 2 + itemIdx;
+                      const isPrimaryScale =
+                        item.id === 'home' ||
+                        item.id === 'works' ||
+                        item.id === 'contact';
+                      const mobileStagger =
+                        globalIndex % 2 === 1 ? 'pl-5 sm:pl-0' : 'pl-0';
 
-                    {/* Restrained secondary descriptor & aurora hairline */}
-                    <div className="mt-1.5 flex items-center gap-3 pl-7 sm:pl-8">
-                      <span
-                        aria-hidden="true"
-                        className="h-[1px] w-4 bg-border transition-all duration-[var(--duration-ui)] ease-[var(--ease-out-expo)] group-hover:w-8 group-hover:bg-gradient-to-r group-hover:from-aurora-violet group-hover:to-aurora-cyan group-focus-visible:w-8"
-                      />
-                      <span className="font-sans text-[length:var(--text-body-sm)] text-secondary/70 transition-colors duration-[var(--duration-ui)] group-hover:text-secondary">
-                        {item.description}
-                      </span>
-                    </div>
+                      return (
+                        <a
+                          key={item.id}
+                          ref={globalIndex === 0 ? firstLinkRef : undefined}
+                          href={item.href}
+                          onClick={onClose}
+                          onMouseEnter={() => trackAxisToBand(bandIdx)}
+                          onFocus={() => trackAxisToBand(bandIdx)}
+                          className={cn(
+                            'group/link relative inline-flex min-h-[48px] items-start gap-2.5 py-1.5 sm:gap-3 sm:py-1',
+                            'transition-opacity duration-[var(--duration-ui)] ease-[var(--ease-out-expo)]',
+                            'group-hover/stage:opacity-25 hover:!opacity-100 focus-visible:!opacity-100',
+                            'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-aurora-lavender',
+                            mobileStagger
+                          )}
+                        >
+                          {/* Localized Aurora Spotlight Halo (appears only behind hovered/focused link) */}
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute -inset-x-5 -inset-y-3 -z-10 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.28)_0%,rgba(103,217,255,0.14)_48%,transparent_74%)] opacity-0 blur-xl transition-opacity duration-[var(--duration-ui)] group-hover/link:opacity-100 group-focus-visible/link:opacity-100"
+                          />
+
+                          <span className="mt-1.5 font-mono text-[length:var(--text-mono-xs)] tabular-nums text-secondary transition-colors duration-[var(--duration-micro)] group-hover/link:text-aurora-cyan group-focus-visible/link:text-aurora-cyan sm:mt-2">
+                            {item.index}
+                          </span>
+
+                          <span
+                            className={cn(
+                              'font-display font-medium leading-[1] tracking-[-0.035em] text-primary',
+                              'transition-transform duration-[var(--duration-ui)] ease-[var(--ease-out-expo)]',
+                              'sm:group-hover/link:translate-x-2.5 sm:group-hover/link:-translate-y-0.5 sm:group-hover/link:-skew-x-2',
+                              'group-focus-visible/link:translate-x-2',
+                              isPrimaryScale
+                                ? 'text-[clamp(1.75rem,4vw,3.625rem)]'
+                                : 'text-[clamp(1.5rem,3.4vw,3.125rem)]'
+                            )}
+                          >
+                            {item.label}
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </nav>
+
+          {/* Left Negative-Space Anchor Zone (26% on Desktop, Bottom on Mobile/Tablet) */}
+          <div className="order-2 mt-6 flex items-end border-t border-border-subtle pt-5 sm:mt-8 sm:pt-6 lg:order-1 lg:mt-0 lg:border-t-0 lg:py-10 lg:pr-8">
+            <ul
+              aria-label="Social channels"
+              className="flex items-center gap-2 sm:gap-3"
+            >
+              {NAVIGATION_SOCIALS.map((social, idx) => (
+                <li key={social.id} ref={setSocialRef(idx)}>
+                  <a
+                    href={social.href}
+                    target={social.external ? '_blank' : undefined}
+                    rel={social.external ? 'noopener noreferrer' : undefined}
+                    aria-label={social.label}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-sm)] text-secondary transition-all duration-[var(--duration-micro)] ease-[var(--ease-micro)] hover:-translate-y-0.5 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender"
+                  >
+                    <SocialIcon id={social.id} />
                   </a>
                 </li>
               ))}
             </ul>
-          </nav>
-
-          {/* Supporting Editorial & Metadata Column */}
-          <aside className="col-span-4 flex flex-col justify-between gap-8 sm:col-span-8 lg:col-span-4 lg:border-l lg:border-border-subtle lg:pl-10">
-            <div ref={setSupportRef(1)} className="space-y-6">
-              <p className="font-sans text-[length:var(--text-body-md)] leading-[1.6] text-secondary">
-                {NAVIGATION_META.statement}
-              </p>
-
-              <div className="flex items-center gap-2.5 text-[length:var(--text-body-sm)] text-primary/90">
-                <span
-                  aria-hidden="true"
-                  className="inline-block h-2 w-2 shrink-0 rounded-full bg-gradient-to-tr from-aurora-violet to-aurora-cyan shadow-[0_0_10px_rgba(103,217,255,0.5)]"
-                />
-                <span>{NAVIGATION_META.availability}</span>
-              </div>
-
-              <Divider variant="subtle" />
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                <div>
-                  <p className="font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.14em] text-secondary">
-                    Location
-                  </p>
-                  <p className="mt-1 font-sans text-[length:var(--text-body-sm)] text-primary/90">
-                    {NAVIGATION_META.location}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.14em] text-secondary">
-                    Direct Contact
-                  </p>
-                  <a
-                    href={`mailto:${NAVIGATION_META.email}`}
-                    className="mt-1 inline-block font-mono text-[length:var(--text-mono-sm)] text-primary/90 transition-colors duration-[var(--duration-micro)] hover:text-aurora-lavender focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender"
-                  >
-                    {NAVIGATION_META.email}
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div ref={setSupportRef(2)} className="space-y-2.5">
-              <p className="font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.14em] text-secondary">
-                Channels
-              </p>
-              <ul className="flex flex-wrap gap-x-6 gap-y-1">
-                {NAVIGATION_SOCIALS.map((social) => (
-                  <li key={social.label}>
-                    <a
-                      href={social.href}
-                      target={social.external ? '_blank' : undefined}
-                      rel={social.external ? 'noopener noreferrer' : undefined}
-                      className="inline-flex min-h-[44px] items-center font-mono text-[length:var(--text-mono-sm)] text-secondary transition-colors duration-[var(--duration-micro)] hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender"
-                    >
-                      {social.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </aside>
-        </div>
-
-        {/* Bottom Editorial Footer */}
-        <div
-          ref={setSupportRef(3)}
-          className="mt-10 flex flex-col items-start justify-between gap-2 border-t border-border-subtle pt-5 font-mono text-[length:var(--text-mono-xs)] text-secondary sm:flex-row sm:items-center"
-        >
-          <span>Monochrome × Aurora</span>
-          <span>Press Esc or M to toggle</span>
+          </div>
         </div>
       </Container>
     </div>

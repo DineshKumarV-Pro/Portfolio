@@ -170,7 +170,7 @@ All components are exported from `@/components/ui`:
 ### Navigation System (`components/navigation/`)
 
 - **`HamburgerButton`**: Custom 3-line asymmetric monochrome trigger (`44px × 44px` touch target) with GSAP-driven transition into an `X` state, `aria-expanded`, `aria-controls`, and `prefers-reduced-motion` support.
-- **`FullscreenNavigation`**: Editorial `#080808` fullscreen overlay (`z-40`, sitting seamlessly beneath `Header` at `z-50`) with a coordinated GSAP `clip-path`, atmospheric aurora, and staggered entrance/exit timeline, numbered `01`–`08` links configured via `navigationData.ts`, focus cycling, `Escape` & backdrop closing, focus restoration, and body scroll locking.
+- **`FullscreenNavigation`**: Minimal `#080808` widescreen aperture overlay (`z-40`, sitting seamlessly beneath `Header` at `z-50`) implementing Concept B × C ("Kinetic Editorial Aperture"): `26% / 74%` asymmetric split, 4 counter-offset horizontal bands (`01`–`08`), vertical axis aurora pulse tracking, localized hover spotlight halos, 4 social icon channels, GSAP horizontal-slit aperture reveal/close, focus cycling, `Escape` & backdrop closing, focus restoration, and body scroll locking.
 
 ---
 
