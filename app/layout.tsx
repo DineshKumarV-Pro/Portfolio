@@ -1,9 +1,32 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Outfit, Inter, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  weight: ['400', '500', '600'],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+  weight: ['400', '500'],
+});
 
 export const metadata: Metadata = {
-  title: "DK — Cinematic Brand & Engineering",
-  description: "Cinematic SVG logo intro and premium brand experience powered by GSAP and Next.js",
+  title: 'DK — Cinematic Brand & Engineering',
+  description:
+    'Personal portfolio of Dinesh Kumar — Monochrome × Aurora design system, editorial engineering, and interactive web experiences.',
 };
 
 export default function RootLayout({
@@ -14,9 +37,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full antialiased bg-[#000000] text-white"
+      className={`${outfit.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased bg-void text-primary`}
     >
-      <body className="min-h-full flex flex-col bg-[#000000] text-white selection:bg-white selection:text-black font-sans">
+      <body className="min-h-full flex flex-col bg-void text-primary font-sans">
         {children}
       </body>
     </html>

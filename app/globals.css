@@ -1,84 +1,271 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   MONOCHROME x AURORA — DESIGN SYSTEM TOKENS
+   Core Principle: Monochrome is the foundation (~90%).
+   Aurora is the visual signature (~10%).
+   ========================================================================== */
+
 :root {
-  --background: #000000;
-  --foreground: #F0F0F5;
+  /* ------------------------------------------------------------------------
+     01. Foundation Palette (Monochrome)
+     ------------------------------------------------------------------------ */
+  --color-void: #080808;
+  --color-surface: #111111;
+  --color-elevated: #1C1C1C;
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #A1A1A1;
+  --color-border: #333333;
+  --color-border-subtle: rgba(245, 245, 245, 0.08);
+  --color-border-strong: rgba(245, 245, 245, 0.22);
 
-  /* Obsidian Aurora Color Palette (Full Dark Baseline) */
-  --obsidian-void: #000000;
-  --obsidian-base: #07070A;
-  --obsidian-graphite: #121218;
-  --obsidian-surface: #1B1B22;
-  --obsidian-border: #22222B;
-  --obsidian-border-strong: #3D3D48;
+  /* Semantic Aliases */
+  --background: var(--color-void);
+  --foreground: var(--color-text-primary);
 
-  --aurora-deep: #2A174A;
-  --aurora-violet: #6236BD;
-  --aurora-electric: #8A55F5;
-  --aurora-lavender: #BCA3F5;
+  /* ------------------------------------------------------------------------
+     02. Aurora Accent Palette
+     ------------------------------------------------------------------------ */
+  --color-aurora-violet: #8B5CF6;
+  --color-aurora-lavender: #A78BFA;
+  --color-aurora-cyan: #67D9FF;
+  --color-aurora-deep: #6D28D9;
 
-  --chrome-steel: #484854;
-  --chrome-silver: #8A8D9A;
-  --chrome-base: #C0C2CB;
-  --chrome-frost: #F0F0F5;
+  /* Soft Glow Layers */
+  --color-aurora-glow-violet: rgba(139, 92, 246, 0.16);
+  --color-aurora-glow-lavender: rgba(167, 139, 250, 0.14);
+  --color-aurora-glow-cyan: rgba(103, 217, 255, 0.12);
+  --color-aurora-glow-deep: rgba(109, 40, 217, 0.22);
+
+  /* ------------------------------------------------------------------------
+     03. Aurora Gradient Language
+     ------------------------------------------------------------------------ */
+  --gradient-aurora: linear-gradient(
+    135deg,
+    #6D28D9 0%,
+    #8B5CF6 38%,
+    #A78BFA 68%,
+    #67D9FF 100%
+  );
+  --gradient-aurora-subtle: linear-gradient(
+    135deg,
+    rgba(109, 40, 217, 0.14) 0%,
+    rgba(139, 92, 246, 0.1) 45%,
+    rgba(103, 217, 255, 0.08) 100%
+  );
+  --gradient-aurora-radial: radial-gradient(
+    circle at 50% 50%,
+    rgba(139, 92, 246, 0.22) 0%,
+    rgba(167, 139, 250, 0.1) 42%,
+    rgba(103, 217, 255, 0.06) 70%,
+    transparent 100%
+  );
+  --gradient-aurora-line: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.55) 30%,
+    rgba(167, 139, 250, 0.65) 55%,
+    rgba(103, 217, 255, 0.55) 80%,
+    transparent 100%
+  );
+  --gradient-aurora-text: linear-gradient(
+    110deg,
+    #F5F5F5 0%,
+    #A78BFA 50%,
+    #67D9FF 100%
+  );
+
+  /* ------------------------------------------------------------------------
+     04. Fluid Typography Scale (clamp)
+     ------------------------------------------------------------------------ */
+  --text-display-xl: clamp(2.75rem, 6vw + 1rem, 5.5rem);
+  --text-display-lg: clamp(2.25rem, 4.5vw + 0.75rem, 4.25rem);
+  --text-display-md: clamp(1.75rem, 3vw + 0.5rem, 3rem);
+  --text-heading-lg: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+  --text-heading-md: clamp(1.25rem, 1.25vw + 0.5rem, 1.625rem);
+  --text-heading-sm: clamp(1.0625rem, 0.75vw + 0.5rem, 1.25rem);
+  --text-body-lg: clamp(1.0625rem, 0.4vw + 0.875rem, 1.25rem);
+  --text-body-md: clamp(0.9375rem, 0.25vw + 0.85rem, 1.0625rem);
+  --text-body-sm: clamp(0.8125rem, 0.15vw + 0.78rem, 0.875rem);
+  --text-mono-sm: clamp(0.75rem, 0.1vw + 0.72rem, 0.8125rem);
+  --text-mono-xs: 0.75rem;
+
+  /* ------------------------------------------------------------------------
+     05. 4px-Based Spacing Scale
+     ------------------------------------------------------------------------ */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+
+  /* Section Rhythm */
+  --space-section-sm: clamp(3rem, 6vw, 4.5rem);
+  --space-section-md: clamp(4.5rem, 9vw, 7.5rem);
+  --space-section-lg: clamp(6rem, 12vw, 10rem);
+
+  /* ------------------------------------------------------------------------
+     06. Layout & Container
+     ------------------------------------------------------------------------ */
+  --container-narrow: 52rem;   /* 832px */
+  --container-default: 75rem;  /* 1200px */
+  --container-wide: 90rem;     /* 1440px */
+  --grid-gutter: clamp(1rem, 2.5vw, 2rem);
+
+  /* ------------------------------------------------------------------------
+     07. Surface, Radii & Elevation
+     ------------------------------------------------------------------------ */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-surface: 0 1px 0 0 rgba(245, 245, 245, 0.04) inset,
+    0 16px 40px -24px rgba(0, 0, 0, 0.85);
+  --shadow-aurora-subtle: 0 0 36px -12px rgba(139, 92, 246, 0.24),
+    0 0 64px -24px rgba(103, 217, 255, 0.14);
+
+  /* ------------------------------------------------------------------------
+     08. Motion System
+     ------------------------------------------------------------------------ */
+  --duration-micro: 180ms;
+  --duration-ui: 300ms;
+  --duration-reveal: 650ms;
+  --duration-dramatic: 1000ms;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-editorial: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-micro: cubic-bezier(0.2, 0, 0, 1);
 }
 
+/* ==========================================================================
+   TAILWIND V4 THEME MAPPING
+   ========================================================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-obsidian-void: var(--obsidian-void);
-  --color-obsidian-base: var(--obsidian-base);
-  --color-obsidian-graphite: var(--obsidian-graphite);
-  --color-obsidian-surface: var(--obsidian-surface);
-  --color-obsidian-border: var(--obsidian-border);
-  --color-obsidian-border-strong: var(--obsidian-border-strong);
+  --color-void: var(--color-void);
+  --color-surface: var(--color-surface);
+  --color-elevated: var(--color-elevated);
+  --color-primary: var(--color-text-primary);
+  --color-secondary: var(--color-text-secondary);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--color-border-strong);
 
-  --color-aurora-deep: var(--aurora-deep);
-  --color-aurora-violet: var(--aurora-violet);
-  --color-aurora-electric: var(--aurora-electric);
-  --color-aurora-lavender: var(--aurora-lavender);
+  --color-aurora-violet: var(--color-aurora-violet);
+  --color-aurora-lavender: var(--color-aurora-lavender);
+  --color-aurora-cyan: var(--color-aurora-cyan);
+  --color-aurora-deep: var(--color-aurora-deep);
 
-  --color-chrome-steel: var(--chrome-steel);
-  --color-chrome-silver: var(--chrome-silver);
-  --color-chrome-base: var(--chrome-base);
-  --color-chrome-frost: var(--chrome-frost);
+  --font-display: var(--font-outfit), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ==========================================================================
+   BASE DOCUMENT STYLES
+   ========================================================================== */
+html {
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: #000000;
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: 1.65;
   overflow-x: hidden;
-}
-
-@keyframes shiny-shimmer {
-  0% {
-    background-position: 100% 0;
-  }
-  100% {
-    background-position: -100% 0;
-  }
-}
-
-@keyframes aurora-pulse {
-  0%, 100% {
-    opacity: 0.25;
-    transform: scale(1) translate(0, 0);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(1.06) translate(8px, -6px);
-  }
 }
 
 /* Custom editorial selection */
 ::selection {
-  background: #6236BD;
-  color: #FFFFFF;
+  background: var(--color-aurora-deep);
+  color: var(--color-text-primary);
 }
 
-/* Hide scrollbar when navigation is open */
+/* Accessible keyboard focus indicator */
+:focus-visible {
+  outline: 2px solid var(--color-aurora-lavender);
+  outline-offset: 3px;
+}
+
+/* Hide scrollbar when fullscreen navigation is open */
 body.nav-open {
   overflow: hidden !important;
+}
+
+/* ==========================================================================
+   LAYOUT & GRID PRIMITIVES (4 / 8 / 12 Columns)
+   ========================================================================== */
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+}
+
+@media (min-width: 640px) {
+  .editorial-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .editorial-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================================================
+   AURORA VISUAL LANGUAGE UTILITIES
+   ========================================================================== */
+.aurora-text {
+  background: var(--gradient-aurora-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aurora-ambient {
+  background: var(--gradient-aurora-radial);
+  pointer-events: none;
+}
+
+.aurora-hairline {
+  height: 1px;
+  background: var(--gradient-aurora-line);
+}
+
+.surface-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   REDUCED MOTION SUPPORT
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

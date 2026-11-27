@@ -48,7 +48,7 @@ export default function Home() {
   }, [isIntroComplete, toggleNav]);
 
   return (
-    <div className="relative min-h-screen bg-[#000000] text-[#F0F0F5] overflow-x-hidden selection:bg-[#6236BD] selection:text-white">
+    <div className="relative min-h-screen bg-void text-primary overflow-x-hidden">
       {/* Cinematic GSAP Intro Loader (Fullscreen pure black overlay until logo settles) */}
       <IntroLoader onComplete={handleIntroComplete} />
 
@@ -59,13 +59,13 @@ export default function Home() {
         isIntroComplete={isIntroComplete}
       />
 
-      {/* Main Website Area - Pure Full Dark (#000000) & activated only after intro settles */}
+      {/* Main Website Area — Activated after intro settles */}
       <main
         className={`relative min-h-screen pt-24 md:pt-28 transition-opacity duration-700 ease-out ${
           isIntroComplete ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Your content goes here */}
+        {/* Stage 04+ sections will be composed here */}
       </main>
     </div>
   );
