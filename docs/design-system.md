@@ -167,6 +167,11 @@ All components are exported from `@/components/ui`:
 - **`Tag`**: Minimal `JetBrains Mono` pill (`default | outline | aurora`, `sm | md`).
 - **`Reveal`**: IntersectionObserver + GSAP entrance wrapper (`up | down | none`) that respects `prefers-reduced-motion`.
 
+### Navigation System (`components/navigation/`)
+
+- **`HamburgerButton`**: Custom 3-line asymmetric monochrome trigger (`44px × 44px` touch target) with GSAP-driven transition into an `X` state, `aria-expanded`, `aria-controls`, and `prefers-reduced-motion` support.
+- **`FullscreenNavigation`**: Editorial `#080808` fullscreen overlay (`z-40`, sitting seamlessly beneath `Header` at `z-50`) with a coordinated GSAP `clip-path`, atmospheric aurora, and staggered entrance/exit timeline, numbered `01`–`08` links configured via `navigationData.ts`, focus cycling, `Escape` & backdrop closing, focus restoration, and body scroll locking.
+
 ---
 
 ## 09. Accessibility Conventions

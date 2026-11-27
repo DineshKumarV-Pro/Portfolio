@@ -23,7 +23,11 @@ export default function Home() {
     setIsNavOpen((prev) => !prev);
   }, []);
 
-  // Keyboard shortcut: Pressing 'M' toggles fullscreen menu (only after intro finishes)
+  const closeNav = useCallback(() => {
+    setIsNavOpen(false);
+  }, []);
+
+  // Keyboard shortcut: Pressing 'M' toggles fullscreen navigation (only after intro finishes)
   useEffect(() => {
     if (!isIntroComplete) return;
 
@@ -31,8 +35,10 @@ export default function Home() {
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
+        (e.target instanceof HTMLElement && e.target.isContentEditable) ||
         e.metaKey ||
-        e.ctrlKey
+        e.ctrlKey ||
+        e.altKey
       ) {
         return;
       }
@@ -52,10 +58,11 @@ export default function Home() {
       {/* Cinematic GSAP Intro Loader (Fullscreen pure black overlay until logo settles) */}
       <IntroLoader onComplete={handleIntroComplete} />
 
-      {/* Website Navigation Header with Signature Menu/Close Button (only revealed after logo docks) */}
+      {/* Website Navigation Header with Custom Hamburger & Fullscreen Navigation */}
       <Header
         isNavOpen={isNavOpen}
         onToggleNav={toggleNav}
+        onCloseNav={closeNav}
         isIntroComplete={isIntroComplete}
       />
 
