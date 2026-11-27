@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from '@/components/Header';
 import { IntroLoader } from '@/components/intro/IntroLoader';
+import { HeroSection } from '@/components/hero';
 
 export default function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -68,11 +69,11 @@ export default function Home() {
 
       {/* Main Website Area — Activated after intro settles */}
       <main
-        className={`relative min-h-screen pt-24 md:pt-28 transition-opacity duration-700 ease-out ${
+        className={`relative min-h-screen transition-opacity duration-700 ease-out ${
           isIntroComplete ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Stage 04+ sections will be composed here */}
+        <HeroSection isIntroComplete={isIntroComplete} />
       </main>
     </div>
   );
