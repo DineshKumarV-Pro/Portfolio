@@ -2,322 +2,214 @@
 
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '@/components/ui/Container';
 import { MOTION_EASE, prefersReducedMotion } from '@/lib/motion';
-import { CinematicThreadsGrainient } from './CinematicThreadsGrainient';
-
-gsap.registerPlugin(ScrollTrigger);
+import { Grainient } from './Grainient';
 
 export interface HeroSectionProps {
   isIntroComplete: boolean;
+  onExplore?: () => void;
 }
 
-export function HeroSection({ isIntroComplete }: HeroSectionProps) {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const bgLayerRef = useRef<HTMLDivElement | null>(null);
-  const eyebrowRef = useRef<HTMLDivElement | null>(null);
-  const dineshRef = useRef<HTMLHeadingElement | null>(null);
-  const kumarWrapRef = useRef<HTMLDivElement | null>(null);
-  const kumarFillRef = useRef<HTMLSpanElement | null>(null);
-  const bottomBarRef = useRef<HTMLDivElement | null>(null);
-  const hairlineRef = useRef<HTMLDivElement | null>(null);
-  const hasPlayedRef = useRef(false);
+const NAME_SVG_SRC = '/Dinesh%20Kumar%20V.%20%E2%80%94%20Signature%20vector.svg';
 
-  // Choreographed GSAP entrance (fires once IntroLoader settles)
+export function HeroSection({ isIntroComplete, onExplore }: HeroSectionProps) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const atmosphereRef = useRef<HTMLDivElement | null>(null);
+  const nameMaskRef = useRef<HTMLDivElement | null>(null);
+  const mottoRef = useRef<HTMLParagraphElement | null>(null);
+  const exploreRef = useRef<HTMLButtonElement | null>(null);
+  const hasAnimatedRef = useRef(false);
+
   useEffect(() => {
-    if (!isIntroComplete || hasPlayedRef.current) return;
+    if (!isIntroComplete || hasAnimatedRef.current) return;
 
     const section = sectionRef.current;
-    const bgLayer = bgLayerRef.current;
-    const eyebrow = eyebrowRef.current;
-    const dinesh = dineshRef.current;
-    const kumarWrap = kumarWrapRef.current;
-    const kumarFill = kumarFillRef.current;
-    const bottomBar = bottomBarRef.current;
-    const hairline = hairlineRef.current;
+    const atmosphere = atmosphereRef.current;
+    const nameMask = nameMaskRef.current;
+    const motto = mottoRef.current;
+    const explore = exploreRef.current;
 
-    if (
-      !section ||
-      !bgLayer ||
-      !eyebrow ||
-      !dinesh ||
-      !kumarWrap ||
-      !kumarFill ||
-      !bottomBar ||
-      !hairline
-    ) {
-      return;
-    }
+    if (!section || !atmosphere || !nameMask || !motto) return;
 
-    hasPlayedRef.current = true;
     const reduced = prefersReducedMotion();
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.set([bgLayer, eyebrow, dinesh, kumarWrap, bottomBar], {
+        gsap.set(atmosphere, { opacity: 1 });
+        gsap.set(nameMask, {
           opacity: 1,
-          x: 0,
-          y: 0,
+          scale: 1,
           clipPath: 'inset(0% 0% 0% 0%)',
         });
-        gsap.set(kumarFill, { clipPath: 'inset(0% 0% 0% 0%)' });
-        gsap.set(hairline, { scaleX: 1 });
+        gsap.set(motto, { opacity: 1, y: 0 });
+        if (explore) gsap.set(explore, { opacity: 0.72, y: 0 });
+        hasAnimatedRef.current = true;
         return;
       }
 
-      gsap.set(bgLayer, { opacity: 0 });
-      gsap.set(eyebrow, { opacity: 0, y: 10 });
-      gsap.set(dinesh, { opacity: 0, x: -28, clipPath: 'inset(0% 100% 0% 0%)' });
-      gsap.set(kumarWrap, { opacity: 0, y: 20 });
-      gsap.set(kumarFill, { clipPath: 'inset(0% 100% 0% 0%)' });
-      gsap.set(hairline, { scaleX: 0, transformOrigin: 'left center' });
-      gsap.set(bottomBar, { opacity: 0, y: 14 });
+      gsap.set(atmosphere, { opacity: 0 });
+      gsap.set(nameMask, {
+        opacity: 0,
+        scale: 1.03,
+        clipPath: 'inset(0% 100% 0% 0%)',
+      });
+      gsap.set(motto, { opacity: 0, y: 14 });
+      if (explore) gsap.set(explore, { opacity: 0, y: 8 });
 
-      const tl = gsap.timeline({ delay: 0.08 });
+      const tl = gsap.timeline({
+        onComplete: () => {
+          hasAnimatedRef.current = true;
+        },
+      });
 
-      // 1. Reveal Threads + Grainient atmosphere
+      // Phase A: Establish dark Grainient atmosphere
       tl.to(
-        bgLayer,
+        atmosphere,
         {
           opacity: 1,
-          duration: 1.05,
-          ease: MOTION_EASE.outExpo,
+          duration: 0.9,
+          ease: 'power2.out',
         },
         0
-      )
-        // 2. Eyebrow index
-        .to(
-          eyebrow,
+      );
+
+      // Phase B & C: Signature SVG reveal & settle
+      tl.to(
+        nameMask,
+        {
+          opacity: 1,
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 1.15,
+          ease: MOTION_EASE.inOutEditorial,
+        },
+        0.18
+      ).to(
+        nameMask,
+        {
+          scale: 1,
+          duration: 1.25,
+          ease: MOTION_EASE.outExpo,
+        },
+        0.18
+      );
+
+      // Phase D: Personal motto reveal after name settles
+      tl.to(
+        motto,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: MOTION_EASE.outExpo,
+        },
+        '-=0.35'
+      );
+
+      // Phase E: Discreet Explore cue
+      if (explore) {
+        tl.to(
+          explore,
           {
-            opacity: 1,
+            opacity: 0.72,
             y: 0,
             duration: 0.55,
             ease: MOTION_EASE.outExpo,
           },
-          0.18
-        )
-        // 3. DINESH horizontal mask slice
-        .to(
-          dinesh,
-          {
-            opacity: 1,
-            x: 0,
-            clipPath: 'inset(0% 0% 0% 0%)',
-            duration: 0.85,
-            ease: MOTION_EASE.inOutEditorial,
-            clearProps: 'clipPath',
-          },
-          0.22
-        )
-        // 4. KUMAR V. outline rise + aurora gradient fill wipe
-        .to(
-          kumarWrap,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.55,
-            ease: MOTION_EASE.outExpo,
-          },
-          0.45
-        )
-        .to(
-          kumarFill,
-          {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            duration: 0.95,
-            ease: MOTION_EASE.inOutEditorial,
-            clearProps: 'clipPath',
-          },
-          0.62
-        )
-        // 5. Bottom hairline & positioning
-        .to(
-          hairline,
-          {
-            scaleX: 1,
-            duration: 0.7,
-            ease: MOTION_EASE.inOutEditorial,
-          },
-          0.75
-        )
-        .to(
-          bottomBar,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.55,
-            ease: MOTION_EASE.outExpo,
-          },
-          0.85
+          '-=0.3'
         );
-
-      // Scroll-driven depth exit into next section
-      gsap.to(dinesh, {
-        x: -36,
-        opacity: 0.25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
-      gsap.to(kumarWrap, {
-        x: 36,
-        opacity: 0.2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
-      gsap.to(bgLayer, {
-        opacity: 0.25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+      }
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, [isIntroComplete]);
-
-  // Subtle pointer-driven Z-plane parallax between DINESH and KUMAR V. (Desktop only)
-  useEffect(() => {
-    if (!isIntroComplete || prefersReducedMotion()) return;
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
-    const section = sectionRef.current;
-    const dinesh = dineshRef.current;
-    const kumarWrap = kumarWrapRef.current;
-    if (!section || !dinesh || !kumarWrap) return;
-
-    const moveDineshX = gsap.quickTo(dinesh, 'x', {
-      duration: 0.8,
-      ease: 'power3.out',
-    });
-    const moveKumarX = gsap.quickTo(kumarWrap, 'x', {
-      duration: 0.9,
-      ease: 'power3.out',
-    });
-
-    const handlePointerMove = (e: PointerEvent) => {
-      const rect = section.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width - 0.5;
-      moveDineshX(nx * -12);
-      moveKumarX(nx * 16);
-    };
-
-    const handlePointerLeave = () => {
-      moveDineshX(0);
-      moveKumarX(0);
-    };
-
-    section.addEventListener('pointermove', handlePointerMove, { passive: true });
-    section.addEventListener('pointerleave', handlePointerLeave);
-
     return () => {
-      section.removeEventListener('pointermove', handlePointerMove);
-      section.removeEventListener('pointerleave', handlePointerLeave);
+      ctx.revert();
     };
   }, [isIntroComplete]);
+
+  const handleExploreClick = () => {
+    if (onExplore) {
+      onExplore();
+      return;
+    }
+
+    const nextSection = sectionRef.current?.nextElementSibling;
+    if (nextSection instanceof HTMLElement) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+      });
+    }
+  };
 
   return (
     <section
       ref={sectionRef}
-      aria-label="Hero"
-      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-void pt-24 pb-8 sm:pt-28 sm:pb-10 lg:pt-32 lg:pb-12"
+      aria-label="Introduction"
+      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-void"
     >
-      {/* Generative Threads + Grainient Atmosphere */}
-      <div ref={bgLayerRef} className="absolute inset-0" style={{ opacity: 0 }}>
-        <CinematicThreadsGrainient isActive={isIntroComplete} />
+      {/* Sole Background Layer: Customized React Bits Grainient */}
+      <div
+        ref={atmosphereRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ opacity: 0 }}
+      >
+        <Grainient />
       </div>
 
+      {/* Top breathing spacer aligned with fixed Header */}
+      <div className="h-20 sm:h-24" aria-hidden="true" />
+
+      {/* Optical Centerpiece: Custom Name SVG + Personal Motto */}
       <Container
         size="wide"
-        className="relative z-10 flex flex-1 flex-col justify-between"
+        className="relative z-10 flex flex-1 flex-col items-center justify-center py-8 sm:py-12"
       >
-        {/* Top Metadata Coordinate */}
-        <div
-          ref={eyebrowRef}
-          className="flex items-center gap-3 font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.18em] text-secondary"
-          style={{ opacity: 0 }}
-        >
-          <span
-            aria-hidden="true"
-            className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-aurora-violet to-aurora-cyan shadow-[0_0_10px_rgba(139,92,246,0.75)]"
-          />
-          <span>01 / Identity</span>
-        </div>
-
-        {/* Centerpiece Dual-Plane Typography: DINESH KUMAR V. */}
-        <div className="my-auto py-8 sm:py-12">
+        <div className="flex w-full -translate-y-[2vh] flex-col items-center text-center">
           <h1 className="sr-only">Dinesh Kumar V.</h1>
 
-          <div aria-hidden="true" className="flex flex-col gap-1.5 sm:gap-2">
-            <span
-              ref={dineshRef}
-              className="block font-display text-[clamp(2.625rem,11.5vw,9.25rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-primary select-none"
-              style={{ opacity: 0 }}
-            >
-              DINESH
-            </span>
-
-            <div
-              ref={kumarWrapRef}
-              className="relative ml-0 w-fit sm:ml-[12%] lg:ml-[18%]"
-              style={{ opacity: 0 }}
-            >
-              {/* Translucent architectural stroke plane */}
-              <span
-                className="block font-display text-[clamp(2.375rem,10.2vw,8.75rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-transparent select-none"
-                style={{ WebkitTextStroke: '1.25px rgba(245, 245, 245, 0.38)' }}
-              >
-                KUMAR V.
-              </span>
-
-              {/* Aurora-gradient fill plane wiped via GSAP clip-path */}
-              <span
-                ref={kumarFillRef}
-                className="pointer-events-none absolute inset-0 block bg-gradient-to-r from-primary via-aurora-lavender to-aurora-cyan bg-clip-text font-display text-[clamp(2.375rem,10.2vw,8.75rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-transparent select-none"
-              >
-                KUMAR V.
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Identity Anchor */}
-        <div className="space-y-4">
           <div
-            ref={hairlineRef}
-            className="h-px w-full bg-gradient-to-r from-border via-border-subtle to-transparent"
-          />
-
-          <div
-            ref={bottomBarRef}
-            className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end"
+            ref={nameMaskRef}
+            className="w-[min(92vw,420px)] sm:w-[min(86vw,700px)] lg:w-[min(78vw,920px)] aspect-[830/164] select-none"
             style={{ opacity: 0 }}
           >
-            <p className="font-sans text-[length:var(--text-body-md)] text-primary/90">
-              Frontend Developer <span className="text-secondary">·</span> Product Builder
-            </p>
-            <p className="font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.14em] text-secondary">
-              Founder of ALPHA CodeX · Computer Science Student
-            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={NAME_SVG_SRC}
+              alt="Dinesh Kumar V."
+              width={830}
+              height={164}
+              decoding="sync"
+              fetchPriority="high"
+              draggable={false}
+              className="h-full w-full object-contain drop-shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
+            />
           </div>
+
+          <p
+            ref={mottoRef}
+            className="mt-6 font-sans text-[clamp(0.9375rem,1.25vw,1.125rem)] font-normal tracking-[0.04em] text-secondary sm:mt-8"
+            style={{ opacity: 0 }}
+          >
+            Build Better Than Yesterday.
+          </p>
         </div>
       </Container>
+
+      {/* Bottom Discreet Explore Cue */}
+      <div className="relative z-10 flex justify-center pb-8 sm:pb-10">
+        <button
+          ref={exploreRef}
+          type="button"
+          onClick={handleExploreClick}
+          className="min-h-[44px] px-4 font-mono text-[length:var(--text-mono-xs)] uppercase tracking-[0.2em] text-secondary transition-colors duration-[var(--duration-micro)] hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender cursor-pointer"
+          style={{ opacity: 0 }}
+        >
+          Explore
+        </button>
+      </div>
     </section>
   );
 }
