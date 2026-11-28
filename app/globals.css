@@ -40,40 +40,30 @@
   /* ------------------------------------------------------------------------
      03. Aurora Gradient Language
      ------------------------------------------------------------------------ */
-  --gradient-aurora: linear-gradient(
-    135deg,
-    #6D28D9 0%,
-    #8B5CF6 38%,
-    #A78BFA 68%,
-    #67D9FF 100%
-  );
-  --gradient-aurora-subtle: linear-gradient(
-    135deg,
-    rgba(109, 40, 217, 0.14) 0%,
-    rgba(139, 92, 246, 0.1) 45%,
-    rgba(103, 217, 255, 0.08) 100%
-  );
-  --gradient-aurora-radial: radial-gradient(
-    circle at 50% 50%,
-    rgba(139, 92, 246, 0.22) 0%,
-    rgba(167, 139, 250, 0.1) 42%,
-    rgba(103, 217, 255, 0.06) 70%,
-    transparent 100%
-  );
-  --gradient-aurora-line: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(139, 92, 246, 0.55) 30%,
-    rgba(167, 139, 250, 0.65) 55%,
-    rgba(103, 217, 255, 0.55) 80%,
-    transparent 100%
-  );
-  --gradient-aurora-text: linear-gradient(
-    110deg,
-    #F5F5F5 0%,
-    #A78BFA 50%,
-    #67D9FF 100%
-  );
+  --gradient-aurora: linear-gradient(135deg,
+      #6D28D9 0%,
+      #8B5CF6 38%,
+      #A78BFA 68%,
+      #67D9FF 100%);
+  --gradient-aurora-subtle: linear-gradient(135deg,
+      rgba(109, 40, 217, 0.14) 0%,
+      rgba(139, 92, 246, 0.1) 45%,
+      rgba(103, 217, 255, 0.08) 100%);
+  --gradient-aurora-radial: radial-gradient(circle at 50% 50%,
+      rgba(139, 92, 246, 0.22) 0%,
+      rgba(167, 139, 250, 0.1) 42%,
+      rgba(103, 217, 255, 0.06) 70%,
+      transparent 100%);
+  --gradient-aurora-line: linear-gradient(90deg,
+      transparent 0%,
+      rgba(139, 92, 246, 0.55) 30%,
+      rgba(167, 139, 250, 0.65) 55%,
+      rgba(103, 217, 255, 0.55) 80%,
+      transparent 100%);
+  --gradient-aurora-text: linear-gradient(110deg,
+      #F5F5F5 0%,
+      #A78BFA 50%,
+      #67D9FF 100%);
 
   /* ------------------------------------------------------------------------
      04. Fluid Typography Scale (clamp)
@@ -93,16 +83,26 @@
   /* ------------------------------------------------------------------------
      05. 4px-Based Spacing Scale
      ------------------------------------------------------------------------ */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
-  --space-24: 6rem;     /* 96px */
-  --space-32: 8rem;     /* 128px */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-12: 3rem;
+  /* 48px */
+  --space-16: 4rem;
+  /* 64px */
+  --space-24: 6rem;
+  /* 96px */
+  --space-32: 8rem;
+  /* 128px */
 
   /* Section Rhythm */
   --space-section-sm: clamp(3rem, 6vw, 4.5rem);
@@ -112,9 +112,12 @@
   /* ------------------------------------------------------------------------
      06. Layout & Container
      ------------------------------------------------------------------------ */
-  --container-narrow: 52rem;   /* 832px */
-  --container-default: 75rem;  /* 1200px */
-  --container-wide: 90rem;     /* 1440px */
+  --container-narrow: 52rem;
+  /* 832px */
+  --container-default: 75rem;
+  /* 1200px */
+  --container-wide: 90rem;
+  /* 1440px */
   --grid-gutter: clamp(1rem, 2.5vw, 2rem);
 
   /* ------------------------------------------------------------------------

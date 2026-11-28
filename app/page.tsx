@@ -1,58 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Lenis from 'lenis';
+import { useState, useEffect, useCallback } from 'react';
 import { Header } from '@/components/Header';
 import { IntroLoader } from '@/components/intro/IntroLoader';
-import { HeroSection } from '@/components/hero';
-import { prefersReducedMotion } from '@/lib/motion';
 
 export default function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState<boolean>(false);
-  const lenisRef = useRef<Lenis | null>(null);
-
-  // Check if intro was already played in this browser session
-  useEffect(() => {
-    if (typeof window !== 'undefined' && sessionStorage.getItem('dk_intro_completed') === 'true') {
-      setIsIntroComplete(true);
-    }
-  }, []);
-
-  // Initialize Lenis smooth scroll once intro completes (respecting reduced motion)
-  useEffect(() => {
-    if (!isIntroComplete || prefersReducedMotion()) return;
-
-    const lenis = new Lenis({
-      duration: 1.15,
-      smoothWheel: true,
-    });
-    lenisRef.current = lenis;
-
-    let rafId: number;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    };
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      lenisRef.current = null;
-    };
-  }, [isIntroComplete]);
-
-  // Pause/resume Lenis when fullscreen navigation is open
-  useEffect(() => {
-    const lenis = lenisRef.current;
-    if (!lenis) return;
-    if (isNavOpen) {
-      lenis.stop();
-    } else {
-      lenis.start();
-    }
-  }, [isNavOpen]);
 
   const handleIntroComplete = useCallback(() => {
     setIsIntroComplete(true);
@@ -64,17 +18,6 @@ export default function Home() {
 
   const closeNav = useCallback(() => {
     setIsNavOpen(false);
-  }, []);
-
-  const handleExplore = useCallback(() => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(window.innerHeight);
-    } else {
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-      });
-    }
   }, []);
 
   // Keyboard shortcut: Pressing 'M' toggles fullscreen navigation (only after intro finishes)
@@ -115,18 +58,6 @@ export default function Home() {
         onCloseNav={closeNav}
         isIntroComplete={isIntroComplete}
       />
-
-      {/* Main Website Area — Activated after intro settles */}
-      <main
-        className={`relative min-h-screen transition-opacity duration-700 ease-out ${
-          isIntroComplete ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <HeroSection
-          isIntroComplete={isIntroComplete}
-          onExplore={handleExplore}
-        />
-      </main>
     </div>
   );
 }

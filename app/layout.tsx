@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Outfit, Inter, JetBrains_Mono } from 'next/font/google';
+import { DisableContextMenu } from '@/components/DisableContextMenu';
 import './globals.css';
 
 const outfit = Outfit({
@@ -40,6 +41,7 @@ export default function RootLayout({
       className={`${outfit.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased bg-void text-primary`}
     >
       <body className="min-h-full flex flex-col bg-void text-primary font-sans">
+        <DisableContextMenu />
         {children}
       </body>
     </html>

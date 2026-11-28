@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Container } from '@/components/ui/Container';
 import { cn } from '@/lib/utils';
@@ -8,7 +8,6 @@ import { MOTION_EASE, prefersReducedMotion } from '@/lib/motion';
 import {
   NAVIGATION_ITEMS,
   NAVIGATION_SOCIALS,
-  type NavigationItem,
   type NavigationSocialLink,
 } from './navigationData';
 
@@ -19,12 +18,8 @@ export interface FullscreenNavigationProps {
   triggerRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-const BANDS: [NavigationItem, NavigationItem][] = [
-  [NAVIGATION_ITEMS[0], NAVIGATION_ITEMS[1]],
-  [NAVIGATION_ITEMS[2], NAVIGATION_ITEMS[3]],
-  [NAVIGATION_ITEMS[4], NAVIGATION_ITEMS[5]],
-  [NAVIGATION_ITEMS[6], NAVIGATION_ITEMS[7]],
-];
+const LEFT_COLUMN_ITEMS = NAVIGATION_ITEMS.slice(0, 4);
+const RIGHT_COLUMN_ITEMS = NAVIGATION_ITEMS.slice(4, 8);
 
 function SocialIcon({ id }: { id: NavigationSocialLink['id'] }) {
   switch (id) {
@@ -102,55 +97,25 @@ export function FullscreenNavigation({
 }: FullscreenNavigationProps) {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const atmosphereRef = useRef<HTMLDivElement | null>(null);
-  const stageRef = useRef<HTMLDivElement | null>(null);
-  const axisPulseRef = useRef<HTMLSpanElement | null>(null);
-  const bandRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const socialItemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const socialBarRef = useRef<HTMLDivElement | null>(null);
   const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
   const activeTlRef = useRef<gsap.core.Timeline | null>(null);
   const isFirstMountRef = useRef(true);
   const wasOpenRef = useRef(false);
 
-  const setBandRef = (index: number) => (el: HTMLDivElement | null) => {
-    bandRefs.current[index] = el;
+  const setItemRef = (index: number) => (el: HTMLLIElement | null) => {
+    itemRefs.current[index] = el;
   };
 
-  const setSocialRef = (index: number) => (el: HTMLLIElement | null) => {
-    socialItemRefs.current[index] = el;
-  };
-
-  // Track vertical axis aurora pulse to the active/hovered band
-  const trackAxisToBand = useCallback((bandIndex: number) => {
-    if (prefersReducedMotion()) return;
-    const stage = stageRef.current;
-    const pulse = axisPulseRef.current;
-    const band = bandRefs.current[bandIndex];
-    if (!stage || !pulse || !band) return;
-
-    const stageRect = stage.getBoundingClientRect();
-    const bandRect = band.getBoundingClientRect();
-    const targetY =
-      bandRect.top - stageRect.top + bandRect.height / 2 - pulse.offsetHeight / 2;
-
-    gsap.to(pulse, {
-      y: targetY,
-      opacity: 0.9,
-      duration: 0.4,
-      ease: MOTION_EASE.outExpo,
-    });
-  }, []);
-
-  // GSAP coordinated opening & closing choreography (Concept B x C)
+  // Coordinated GSAP top-curtain reveal & staggered entrance
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
     const atmosphere = atmosphereRef.current;
-    const pulse = axisPulseRef.current;
-    const bands = bandRefs.current.filter(
-      (el): el is HTMLDivElement => el !== null
-    );
-    const socials = socialItemRefs.current.filter(
+    const socialBar = socialBarRef.current;
+    const items = itemRefs.current.filter(
       (el): el is HTMLLIElement => el !== null
     );
 
@@ -161,10 +126,10 @@ export function FullscreenNavigation({
       gsap.set(overlay, {
         visibility: 'hidden',
         opacity: 0,
-        clipPath: 'inset(50% 0% 50% 0%)',
+        clipPath: 'inset(0% 0% 100% 0%)',
         pointerEvents: 'none',
       });
-      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
+      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.94 });
       return;
     }
 
@@ -173,7 +138,6 @@ export function FullscreenNavigation({
 
     if (isOpen) {
       wasOpenRef.current = true;
-      document.body.style.overflow = 'hidden';
       document.body.classList.add('nav-open');
 
       if (reduced) {
@@ -183,10 +147,9 @@ export function FullscreenNavigation({
           clipPath: 'inset(0% 0% 0% 0%)',
           pointerEvents: 'auto',
         });
-        if (atmosphere) gsap.set(atmosphere, { opacity: 0.45, scale: 1 });
-        if (pulse) gsap.set(pulse, { opacity: 0.75, y: 0 });
-        gsap.set(bands, { opacity: 1, x: 0 });
-        gsap.set(socials, { opacity: 1, y: 0 });
+        if (atmosphere) gsap.set(atmosphere, { opacity: 0.38, scale: 1 });
+        gsap.set(items, { opacity: 1, y: 0 });
+        if (socialBar) gsap.set(socialBar, { opacity: 1, y: 0 });
         firstLinkRef.current?.focus();
         return;
       }
@@ -195,16 +158,9 @@ export function FullscreenNavigation({
         visibility: 'visible',
         pointerEvents: 'none',
       });
-      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
-      if (pulse) gsap.set(pulse, { opacity: 0, y: 32 });
-
-      bands.forEach((band, idx) => {
-        gsap.set(band, {
-          opacity: 0,
-          x: idx % 2 === 0 ? -36 : 36,
-        });
-      });
-      gsap.set(socials, { opacity: 0, y: 12 });
+      if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.94 });
+      gsap.set(items, { opacity: 0, y: 20 });
+      if (socialBar) gsap.set(socialBar, { opacity: 0, y: 10 });
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -214,78 +170,64 @@ export function FullscreenNavigation({
       });
       activeTlRef.current = tl;
 
-      // Stage 1: Widescreen horizontal slit aperture expansion
+      // 1. Top-down curtain reveal
       tl.fromTo(
         overlay,
         {
           opacity: 0,
-          clipPath: 'inset(50% 0% 50% 0%)',
+          clipPath: 'inset(0% 0% 100% 0%)',
         },
         {
           opacity: 1,
           clipPath: 'inset(0% 0% 0% 0%)',
-          duration: 0.55,
+          duration: 0.5,
           ease: MOTION_EASE.inOutEditorial,
         },
         0
       );
 
-      // Stage 2: Atmospheric radial depth bloom
+      // 2. Subtle atmospheric aurora glow
       if (atmosphere) {
         tl.to(
           atmosphere,
           {
-            opacity: 0.45,
+            opacity: 0.38,
             scale: 1,
-            duration: 0.8,
+            duration: 0.75,
             ease: MOTION_EASE.outExpo,
           },
-          0.14
+          0.12
         );
       }
 
-      // Stage 3: Counter-offset typographic bands glide inward
-      if (bands.length > 0) {
+      // 3. Staggered editorial link entrance
+      if (items.length > 0) {
         tl.to(
-          bands,
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.62,
-            stagger: 0.06,
-            ease: MOTION_EASE.outExpo,
-            clearProps: 'transform',
-          },
-          '-=0.52'
-        );
-      }
-
-      // Stage 4: Vertical axis aurora pulse illuminates
-      if (pulse) {
-        tl.to(
-          pulse,
-          {
-            opacity: 0.75,
-            duration: 0.45,
-            ease: MOTION_EASE.outExpo,
-          },
-          '-=0.4'
-        );
-      }
-
-      // Stage 5: Social icons reveal in the negative-space anchor
-      if (socials.length > 0) {
-        tl.to(
-          socials,
+          items,
           {
             opacity: 1,
             y: 0,
-            duration: 0.4,
-            stagger: 0.04,
+            duration: 0.5,
+            stagger: 0.035,
             ease: MOTION_EASE.outExpo,
             clearProps: 'transform',
           },
-          '-=0.35'
+          '-=0.28'
+        );
+      }
+
+      // 4. Social bar settle
+      if (socialBar) {
+        tl.to(
+          socialBar,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.38,
+            ease: MOTION_EASE.outExpo,
+            clearProps: 'transform',
+          },
+          '-=0.25'
         );
       }
     } else if (wasOpenRef.current) {
@@ -295,11 +237,10 @@ export function FullscreenNavigation({
         gsap.set(overlay, {
           visibility: 'hidden',
           opacity: 0,
-          clipPath: 'inset(50% 0% 50% 0%)',
+          clipPath: 'inset(0% 0% 100% 0%)',
           pointerEvents: 'none',
         });
-        if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.92 });
-        document.body.style.overflow = '';
+        if (atmosphere) gsap.set(atmosphere, { opacity: 0, scale: 0.94 });
         document.body.classList.remove('nav-open');
         triggerRef?.current?.focus();
         return;
@@ -310,44 +251,37 @@ export function FullscreenNavigation({
       const tl = gsap.timeline({
         onComplete: () => {
           gsap.set(overlay, { visibility: 'hidden' });
-          document.body.style.overflow = '';
           document.body.classList.remove('nav-open');
           triggerRef?.current?.focus();
         },
       });
       activeTlRef.current = tl;
 
-      if (socials.length > 0) {
+      if (socialBar) {
         tl.to(
-          socials,
+          socialBar,
           {
             opacity: 0,
             y: 8,
-            duration: 0.18,
-            stagger: 0.02,
+            duration: 0.16,
             ease: MOTION_EASE.micro,
           },
           0
         );
       }
 
-      if (bands.length > 0) {
-        bands.forEach((band, idx) => {
-          tl.to(
-            band,
-            {
-              opacity: 0,
-              x: idx % 2 === 0 ? -24 : 24,
-              duration: 0.24,
-              ease: MOTION_EASE.micro,
-            },
-            idx * 0.02
-          );
-        });
-      }
-
-      if (pulse) {
-        tl.to(pulse, { opacity: 0, duration: 0.2 }, 0);
+      if (items.length > 0) {
+        tl.to(
+          items,
+          {
+            opacity: 0,
+            y: -10,
+            duration: 0.2,
+            stagger: 0.015,
+            ease: MOTION_EASE.micro,
+          },
+          0
+        );
       }
 
       if (atmosphere) {
@@ -355,24 +289,23 @@ export function FullscreenNavigation({
           atmosphere,
           {
             opacity: 0,
-            scale: 0.92,
-            duration: 0.28,
+            scale: 0.94,
+            duration: 0.25,
             ease: MOTION_EASE.micro,
           },
           0.04
         );
       }
 
-      // Collapse aperture back to horizontal center slit
       tl.to(
         overlay,
         {
           opacity: 0,
-          clipPath: 'inset(50% 0% 50% 0%)',
-          duration: 0.42,
+          clipPath: 'inset(0% 0% 100% 0%)',
+          duration: 0.38,
           ease: MOTION_EASE.inOutEditorial,
         },
-        0.12
+        0.1
       );
     }
 
@@ -384,7 +317,6 @@ export function FullscreenNavigation({
   // Cleanup scroll lock on unmount
   useEffect(() => {
     return () => {
-      document.body.style.overflow = '';
       document.body.classList.remove('nav-open');
     };
   }, []);
@@ -455,132 +387,92 @@ export function FullscreenNavigation({
       className="fixed inset-0 z-40 overflow-y-auto overflow-x-hidden bg-void text-primary"
       style={{ visibility: 'hidden', opacity: 0 }}
     >
-      {/* Subtle atmospheric depth glow */}
+      {/* Restrained ambient aurora backdrop */}
       <div
         ref={atmosphereRef}
         aria-hidden="true"
-        className="aurora-ambient pointer-events-none fixed top-1/2 left-[68%] -translate-x-1/2 -translate-y-1/2 h-[480px] w-[480px] rounded-full blur-3xl md:h-[680px] md:w-[680px]"
+        className="aurora-ambient pointer-events-none fixed -bottom-32 right-[-10%] h-[420px] w-[420px] rounded-full blur-3xl md:h-[620px] md:w-[620px]"
         style={{ opacity: 0 }}
       />
 
       <Container
         size="wide"
-        className="relative flex min-h-full flex-col justify-center pt-20 pb-8 sm:pt-24 sm:pb-10 lg:py-24"
+        className="relative flex min-h-full flex-col justify-between pt-24 pb-8 sm:pt-28 sm:pb-10 lg:pt-32 lg:pb-12"
       >
-        {/* Widescreen Editorial Aperture Frame */}
-        <div className="relative grid grid-cols-1 border-y border-border-subtle py-6 sm:py-8 lg:grid-cols-[26%_74%] lg:py-0">
-          {/* Primary Navigation Stage (Right 74% on Desktop, Top on Mobile/Tablet) */}
-          <nav
-            aria-label="Primary"
-            className="order-1 lg:order-2"
-          >
-            <div
-              ref={stageRef}
-              className={cn(
-                'group/stage relative flex flex-col justify-between gap-2 sm:gap-5 lg:gap-7',
-                'border-l border-border-subtle pl-5 sm:border-l-0 sm:pl-0',
-                'lg:border-l lg:border-border-subtle lg:py-10 lg:pl-12 xl:pl-16'
-              )}
-            >
-              {/* Vertical Axis Aurora Pulse (Desktop) */}
-              <span
-                ref={axisPulseRef}
-                aria-hidden="true"
-                className="pointer-events-none absolute -left-[1px] top-0 hidden h-24 w-[2px] bg-gradient-to-b from-transparent via-aurora-violet to-aurora-cyan lg:block"
-                style={{ opacity: 0 }}
-              />
-
-              {BANDS.map((pair, bandIdx) => {
-                const isEvenBand = bandIdx % 2 === 1;
-                return (
-                  <div
-                    key={pair[0].id}
-                    ref={setBandRef(bandIdx)}
-                    className={cn(
-                      'flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8',
-                      isEvenBand
-                        ? 'lg:pl-[12%] lg:pr-0'
-                        : 'lg:pl-0 lg:pr-[12%]'
-                    )}
-                  >
-                    {pair.map((item, itemIdx) => {
-                      const globalIndex = bandIdx * 2 + itemIdx;
-                      const isPrimaryScale =
-                        item.id === 'home' ||
-                        item.id === 'works' ||
-                        item.id === 'contact';
-                      const mobileStagger =
-                        globalIndex % 2 === 1 ? 'pl-5 sm:pl-0' : 'pl-0';
-
-                      return (
-                        <a
-                          key={item.id}
-                          ref={globalIndex === 0 ? firstLinkRef : undefined}
-                          href={item.href}
-                          onClick={onClose}
-                          onMouseEnter={() => trackAxisToBand(bandIdx)}
-                          onFocus={() => trackAxisToBand(bandIdx)}
-                          className={cn(
-                            'group/link relative inline-flex min-h-[48px] items-start gap-2.5 py-1.5 sm:gap-3 sm:py-1',
-                            'transition-opacity duration-[var(--duration-ui)] ease-[var(--ease-out-expo)]',
-                            'group-hover/stage:opacity-25 hover:!opacity-100 focus-visible:!opacity-100',
-                            'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-aurora-lavender',
-                            mobileStagger
-                          )}
-                        >
-                          {/* Localized Aurora Spotlight Halo (appears only behind hovered/focused link) */}
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-x-5 -inset-y-3 -z-10 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.28)_0%,rgba(103,217,255,0.14)_48%,transparent_74%)] opacity-0 blur-xl transition-opacity duration-[var(--duration-ui)] group-hover/link:opacity-100 group-focus-visible/link:opacity-100"
-                          />
-
-                          <span className="mt-1.5 font-mono text-[length:var(--text-mono-xs)] tabular-nums text-secondary transition-colors duration-[var(--duration-micro)] group-hover/link:text-aurora-cyan group-focus-visible/link:text-aurora-cyan sm:mt-2">
+        {/* Clean 2-Column Editorial Chapter Navigation */}
+        <nav
+          aria-label="Primary"
+          className="my-auto py-4"
+        >
+          <div className="group/nav grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:gap-x-20 xl:gap-x-28">
+            {[LEFT_COLUMN_ITEMS, RIGHT_COLUMN_ITEMS].map((column, colIdx) => (
+              <ul
+                key={colIdx}
+                className={cn(
+                  'divide-y divide-border-subtle border-border-subtle border-b',
+                  colIdx === 0 ? 'border-t' : 'border-t-0 md:border-t'
+                )}
+              >
+                {column.map((item, rowIdx) => {
+                  const globalIdx = colIdx * 4 + rowIdx;
+                  return (
+                    <li key={item.id} ref={setItemRef(globalIdx)}>
+                      <a
+                        ref={globalIdx === 0 ? firstLinkRef : undefined}
+                        href={item.href}
+                        onClick={onClose}
+                        className={cn(
+                          'group/link relative flex min-h-[54px] items-center justify-between gap-4 py-3.5 sm:min-h-[64px] sm:py-4 lg:min-h-[76px] lg:py-5',
+                          'transition-opacity duration-[var(--duration-ui)] ease-[var(--ease-out-expo)]',
+                          'md:group-hover/nav:opacity-40 hover:!opacity-100 focus-visible:!opacity-100',
+                          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aurora-lavender'
+                        )}
+                      >
+                        <div className="flex items-baseline gap-4 sm:gap-5">
+                          <span className="font-mono text-[length:var(--text-mono-xs)] tabular-nums text-secondary transition-colors duration-[var(--duration-micro)] group-hover/link:text-aurora-lavender group-focus-visible/link:text-aurora-lavender">
                             {item.index}
                           </span>
-
-                          <span
-                            className={cn(
-                              'font-display font-medium leading-[1] tracking-[-0.035em] text-primary',
-                              'transition-transform duration-[var(--duration-ui)] ease-[var(--ease-out-expo)]',
-                              'sm:group-hover/link:translate-x-2.5 sm:group-hover/link:-translate-y-0.5 sm:group-hover/link:-skew-x-2',
-                              'group-focus-visible/link:translate-x-2',
-                              isPrimaryScale
-                                ? 'text-[clamp(1.75rem,4vw,3.625rem)]'
-                                : 'text-[clamp(1.5rem,3.4vw,3.125rem)]'
-                            )}
-                          >
+                          <span className="font-display text-[clamp(1.625rem,3.1vw,2.75rem)] font-medium leading-[1.08] tracking-[-0.025em] text-primary transition-transform duration-[var(--duration-ui)] ease-[var(--ease-out-expo)] sm:group-hover/link:translate-x-2.5 group-focus-visible/link:translate-x-2">
                             {item.label}
                           </span>
-                        </a>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </nav>
+                        </div>
 
-          {/* Left Negative-Space Anchor Zone (26% on Desktop, Bottom on Mobile/Tablet) */}
-          <div className="order-2 mt-6 flex items-end border-t border-border-subtle pt-5 sm:mt-8 sm:pt-6 lg:order-1 lg:mt-0 lg:border-t-0 lg:py-10 lg:pr-8">
-            <ul
-              aria-label="Social channels"
-              className="flex items-center gap-2 sm:gap-3"
-            >
-              {NAVIGATION_SOCIALS.map((social, idx) => (
-                <li key={social.id} ref={setSocialRef(idx)}>
-                  <a
-                    href={social.href}
-                    target={social.external ? '_blank' : undefined}
-                    rel={social.external ? 'noopener noreferrer' : undefined}
-                    aria-label={social.label}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-sm)] text-secondary transition-all duration-[var(--duration-micro)] ease-[var(--ease-micro)] hover:-translate-y-0.5 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender"
-                  >
-                    <SocialIcon id={social.id} />
-                  </a>
-                </li>
-              ))}
-            </ul>
+                        <span
+                          aria-hidden="true"
+                          className="h-[1px] w-0 bg-gradient-to-r from-aurora-violet via-aurora-lavender to-aurora-cyan transition-all duration-[var(--duration-ui)] ease-[var(--ease-out-expo)] group-hover/link:w-8 group-focus-visible/link:w-8"
+                        />
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            ))}
           </div>
+        </nav>
+
+        {/* Bottom Social Channels */}
+        <div
+          ref={socialBarRef}
+          className="mt-8 flex items-center justify-end border-t border-border-subtle pt-5"
+        >
+          <ul
+            aria-label="Social channels"
+            className="flex items-center gap-2 sm:gap-3"
+          >
+            {NAVIGATION_SOCIALS.map((social) => (
+              <li key={social.id}>
+                <a
+                  href={social.href}
+                  target={social.external ? '_blank' : undefined}
+                  rel={social.external ? 'noopener noreferrer' : undefined}
+                  aria-label={social.label}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-sm)] text-secondary transition-all duration-[var(--duration-micro)] ease-[var(--ease-micro)] hover:-translate-y-0.5 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-aurora-lavender"
+                >
+                  <SocialIcon id={social.id} />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </div>
